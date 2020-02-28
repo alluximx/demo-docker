@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=fecoval
+POSTGRES_USER=LTPstaOTdkTGvraHRMkXhSHoXnsvDrmq
+POSTGRES_PASSWORD=fN93IL2Y97xUFmgx6ljpBhnODsq4WfTvXneZeI3CYxYvjn9oA8TyvVEPponoz28q
