@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- <div class="row"> -->
+<h2>Alta de avalúos</h2>
+  <!-- Nav tabs -->
+<br>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="solicitud-tab" data-toggle="tab" href="#solicitud" role="tab" aria-controls="home" aria-selected="true">Solicitud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="tipo-tab" data-toggle="tab" href="#tipo" role="tab" aria-controls="tipo" aria-selected="false">Tipo y complejidad del avalúo</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="asignacion-tab" data-toggle="tab" href="#asignacion" role="tab" aria-controls="asignacion" aria-selected="false">Asignación de colegio y aceptación</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="documentacion-tab" data-toggle="tab" href="#documentacion" role="tab" aria-controls="documentacion" aria-selected="false">Documentación entregada</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="datos-tab" data-toggle="tab" href="#datos" role="tab" aria-controls="datos" aria-selected="false">Datos generales del propietario</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="visita-tab" data-toggle="tab" href="#visita" role="tab" aria-controls="visita" aria-selected="false">Visita del bien</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="entrega-avaluo-tab" data-toggle="tab" href="#entrega-avaluo" role="tab" aria-controls="entrega-avaluo" aria-selected="false">Entrega del avalúo al cliente</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="false">Timeline</a>
+  </li>
+</ul>
+<br>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="solicitud" role="tabpanel" aria-labelledby="solicitud-tab">
+    <form action="" method="POST">
+      <p>Institución o cliente</p>
+      {% crispy cliente_form %}
+      {% crispy datoscliente_form %}
+      <hr>
+      <p>Información del mancomunado</p>
+      {% crispy mancomunado_form %}
+      <hr>
+      <p>Folios y fechas de solicitud</p>
+      {% crispy avaluo_form %}
+    </form>
+  </div>
+  <div class="tab-pane fade" id="tipo" role="tabpanel" aria-labelledby="tipo-tab">Tipo y complejidad del avalúo</div>
+  <div class="tab-pane fade" id="asignacion" role="tabpanel" aria-labelledby="asignacion-tab">Asignación de colegio y aceptación</div>
+  <div class="tab-pane fade" id="documentacion" role="tabpanel" aria-labelledby="documentacion-tab">Documentación entregada</div>
+  <div class="tab-pane fade" id="datos" role="tabpanel" aria-labelledby="datos-tab">Datos generales del propietario</div>
+  <div class="tab-pane fade" id="visita" role="tabpanel" aria-labelledby="visita-tab">Visita del bien</div>
+  <div class="tab-pane fade" id="elaboracion" role="tabpanel" aria-labelledby="elaboracion-tab">Elaboración del avalúo</div>
+  <div class="tab-pane fade" id="revisiones" role="tabpanel" aria-labelledby="revisiones-tab">Revisiones</div>
+  <div class="tab-pane fade" id="entrega-avaluo" role="tabpanel" aria-labelledby="entrega-avaluo-tab">Entrega del avalúo al cliente</div>
+  <div class="tab-pane fade" id="entrega-factura" role="tabpanel" aria-labelledby="entrega-factura-tab">Entrega de factura al cliente</div>
+  <div class="tab-pane fade" id="expediente" role="tabpanel" aria-labelledby="expediente-tab">Expediente</div>
+  <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">Timeline</div>
+</div>
+
+</div>
+
+{% endblock %}
