@@ -5,68 +5,133 @@
 {% block content %}
 
 <div id="create">
-  [[message]]
-<h2>Alta de avalúos</h2>
+  <h2>Alta de avalúos</h2>
   <!-- Nav tabs -->
-<br>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="solicitud-tab" data-toggle="tab" href="#solicitud" role="tab" aria-controls="home" aria-selected="true">Solicitud</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="tipo-tab" data-toggle="tab" href="#tipo" role="tab" aria-controls="tipo" aria-selected="false">Tipo y complejidad del avalúo</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="asignacion-tab" data-toggle="tab" href="#asignacion" role="tab" aria-controls="asignacion" aria-selected="false">Asignación de colegio y aceptación</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="documentacion-tab" data-toggle="tab" href="#documentacion" role="tab" aria-controls="documentacion" aria-selected="false">Documentación entregada</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="datos-tab" data-toggle="tab" href="#datos" role="tab" aria-controls="datos" aria-selected="false">Datos generales del propietario</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="visita-tab" data-toggle="tab" href="#visita" role="tab" aria-controls="visita" aria-selected="false">Visita del bien</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="entrega-avaluo-tab" data-toggle="tab" href="#entrega-avaluo" role="tab" aria-controls="entrega-avaluo" aria-selected="false">Entrega del avalúo al cliente</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="false">Timeline</a>
-  </li>
-</ul>
-<br>
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="solicitud" role="tabpanel" aria-labelledby="solicitud-tab">
-    <form action="" method="POST">
-      <p>Institución o cliente</p>
-      {% crispy cliente_form %}
-      {% crispy datoscliente_form %}
-      <hr>
-      <p>Información del mancomunado</p>
-      {% crispy mancomunado_form %}
-      <hr>
-      <p>Folios y fechas de solicitud</p>
-      {% crispy avaluo1_form %}
-      <hr>
-      <p>Datos del inmueble</p>
-      {% crispy avaluo2_form %}
-      <button type="submit" class="btn btn-success">Aceptar</button>
-    </form>
+  <br>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        @click.prevent="setActive('solicitud')"
+        :class="{ active: isActive('solicitud') }"
+        id="solicitud-tab"
+        href="#solicitud">Solicitud</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        @click.prevent="setActive('tipo')"
+        :class="{ active: isActive('tipo') }"
+        id="tipo-tab"
+        href="#tipo">Tipo y complejidad del avalúo</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        @click.prevent="setActive('asignacion')"
+        :class="{ active: isActive('asignacion') }"
+        id="asignacion-tab"
+        href="#asignacion">Asignación de colegio y aceptación</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        @click.prevent="setActive('documentacion')"
+        :class="{ active: isActive('documentacion') }"
+        id="documentacion-tab"
+        href="#documentacion">Documentación entregada</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        @click.prevent="setActive('datos')"
+        :class="{ active: isActive('datos') }"
+        id="datos-tab"
+        href="#datos">Datos generales del propietario</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        @click.prevent="setActive('visita')"
+        :class="{ active: isActive('visita') }"
+        id="visita-tab"
+        href="#visita">Visita del bien</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        @click.prevent="setActive('entrega-avaluo')"
+        :class="{ active: isActive('entrega-avaluo') }"
+        id="entrega-avaluo-tab"
+        href="#entrega-avaluo">Entrega del avalúo al cliente</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        @click.prevent="setActive('timeline')"
+        :class="{ active: isActive('timeline') }"
+        id="timeline-tab"
+        href="#timeline">Timeline</a>
+    </li>
+  </ul>
+  <br>
+  <div class="tab-content" id="myTabContent">
+    <div
+      class="tab-pane fade"
+      :class="{ 'active show': isActive('solicitud') }"
+      id="solicitud"
+      role="tabpanel"
+      aria-labelledby="solicitud-tab">
+      <form action="" method="POST">
+        <p>Institución o cliente</p>
+        {% crispy cliente_form %}
+        {% crispy datoscliente_form %}
+        <hr>
+        <p>Información del mancomunado</p>
+        {% crispy mancomunado_form %}
+        <hr>
+        <p>Folios y fechas de solicitud</p>
+        {% crispy avaluo1_form %}
+        <hr>
+        <p>Datos del inmueble</p>
+        {% crispy avaluo2_form %}
+        <button type="submit" class="btn btn-success">Aceptar</button>
+      </form>
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('tipo') }" id="tipo">
+      Tipo y complejidad del avalúo
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('asignacion') }" id="asignacion">
+      Asignación de colegio y aceptación
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('documentacion') }" id="documentacion">
+      Documentación entregada
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('datos') }" id="datos">
+      Datos generales del propietario
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('visita') }" id="visita">
+      Visita del bien
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('elaboracion') }" id="elaboracion">
+      Elaboración del avalúo
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('revisiones') }" id="revisiones">
+      Revisiones
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('entrega-avaluo') }" id="entrega-avaluo">
+      Entrega del avalúo al cliente
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('entrega-factura') }" id="entrega-factura">
+      Entrega de factura al cliente
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('expediente') }" id="expediente">
+      Expediente
+    </div>
+    <div class="tab-pane fade" :class="{ 'active show': isActive('timeline') }" id="timeline">
+      Timeline
+    </div>
   </div>
-  <div class="tab-pane fade" id="tipo" role="tabpanel" aria-labelledby="tipo-tab">Tipo y complejidad del avalúo</div>
-  <div class="tab-pane fade" id="asignacion" role="tabpanel" aria-labelledby="asignacion-tab">Asignación de colegio y aceptación</div>
-  <div class="tab-pane fade" id="documentacion" role="tabpanel" aria-labelledby="documentacion-tab">Documentación entregada</div>
-  <div class="tab-pane fade" id="datos" role="tabpanel" aria-labelledby="datos-tab">Datos generales del propietario</div>
-  <div class="tab-pane fade" id="visita" role="tabpanel" aria-labelledby="visita-tab">Visita del bien</div>
-  <div class="tab-pane fade" id="elaboracion" role="tabpanel" aria-labelledby="elaboracion-tab">Elaboración del avalúo</div>
-  <div class="tab-pane fade" id="revisiones" role="tabpanel" aria-labelledby="revisiones-tab">Revisiones</div>
-  <div class="tab-pane fade" id="entrega-avaluo" role="tabpanel" aria-labelledby="entrega-avaluo-tab">Entrega del avalúo al cliente</div>
-  <div class="tab-pane fade" id="entrega-factura" role="tabpanel" aria-labelledby="entrega-factura-tab">Entrega de factura al cliente</div>
-  <div class="tab-pane fade" id="expediente" role="tabpanel" aria-labelledby="expediente-tab">Expediente</div>
-  <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">Timeline</div>
-</div>
-
 </div>
 
 {% endblock %}
@@ -77,7 +142,15 @@ var app = new Vue({
   delimiters: ['[[', ']]'],
   el: '#create',
   data: {
-    message: 'Hola Vue!'
+    activeItem: 'solicitud',
+  },
+  methods: {
+    isActive (menuItem) {
+      return this.activeItem === menuItem
+    },
+    setActive (menuItem) {
+      this.activeItem = menuItem
+    }
   }
 })
 </script>
