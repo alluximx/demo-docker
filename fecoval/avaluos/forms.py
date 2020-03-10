@@ -1,11 +1,15 @@
 from django import forms
-from django.forms.models import inlineformset_factory
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column
 from . models import DatosCliente, Cliente, Avaluo, Mancomunado, Estado, Municipio, ADR
 
 
 class ClienteForm(forms.ModelForm):
+
+    cliente = forms.ModelChoiceField(
+        required=True, queryset=Cliente.objects.all()
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -22,7 +26,6 @@ class ClienteForm(forms.ModelForm):
         fields = ('cliente',)
 
 
-# DatosClienteFormset = inlineformset_factory(Cliente, DatosCliente, form=AltaAvaluoForm)
 class DatosClienteForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -82,10 +85,11 @@ class AltaAvaluoForm1(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Row(
-                Column('folio', css_class='form-group col-md-3 mb-0'),
-                Column('fecha_asignacion', css_class='form-group col-md-3 mb-0'),
-                Column('fecha_compromiso', css_class='form-group col-md-3 mb-0'),
-                Column('fecha_solicitud_correo', css_class='form-group col-md-3 mb-0'),
+                Column('folio', css_class='form-group col-md-4 mb-0'),
+                Column('fecha_asignacion', css_class='form-group col-md-4 mb-0'),
+                Column('fecha_compromiso', css_class='form-group col-md-4 mb-0'),
+                Column('fecha_solicitud_correo', css_class='form-group col-md-4 mb-0'),
+                Column('credito_fiscal', css_class='form-group col-md-4 mb-0'),
                 css_class='form_row'
             ),
         )
@@ -93,3 +97,30 @@ class AltaAvaluoForm1(forms.ModelForm):
     class Meta:
         model = Avaluo
         fields = ('folio', 'fecha_asignacion', 'fecha_compromiso', 'fecha_solicitud_correo', 'credito_fiscal', 'codigo_postal', 'calle', 'no_ext', 'no_int', 'colonia', 'lote', 'manzana')
+
+
+class AltaAvaluoForm2(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Row(
+                Column('codigo_postal', css_class='form-group col-md-3 mb-0'),
+                Column('calle', css_class='form-group col-md-3 mb-0'),
+                Column('no_ext', css_class='form-group col-md-3 mb-0'),
+                Column('no_int', css_class='form-group col-md-3 mb-0'),
+                css_class='form_row'
+            ),
+            Row(
+                Column('colonia', css_class='form-group col-md-3 mb-0'),
+                Column('lote', css_class='form-group col-md-3 mb-0'),
+                Column('manzana', css_class='form-group col-md-3 mb-0'),
+                css_class='form_row'
+            ),
+        )
+
+    class Meta:
+        model = Avaluo
+        fields = ('codigo_postal', 'calle', 'no_ext', 'no_int', 'colonia', 'lote', 'manzana')
