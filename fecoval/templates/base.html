@@ -31,7 +31,7 @@
     <!-- This file stores project-specific CSS -->
     
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
-    <link href="{% static 'jquery-scrolling-nav/dist/jquery.scrolling-tabs.min.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'jquery-scrolling-nav/dist/jquery.scrolling-tabs.min.css' %}" rel="stylesheet"> -->
     
     
     {% endblock %}
@@ -121,16 +121,16 @@
     {% block javascript %}
       
       <!-- Bootstrap JS and its dependencies-->
-      <!-- <script -->
-      <!--   src="https://code.jquery.com/jquery-3.3.1.slim.min.js" -->
-      <!--   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" -->
-      <!--   crossorigin="anonymous"> -->
-      <!-- </script> -->
       <script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous">
       </script>
+      <!-- <script -->
+      <!--   src="https://code.jquery.com/jquery-3.3.1.min.js" -->
+      <!--   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" -->
+      <!--   crossorigin="anonymous"> -->
+      <!-- </script> -->
       <script
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -143,13 +143,15 @@
       </script>
 
       <!-- Your stuff: Third-party javascript libraries go here -->
-      <script src="{% static 'jquery-scrolling-nav/dist/jquery.scrolling-tabs.min.js' %}"></script>
+      <!-- <script src="{% static 'jquery-scrolling-nav/dist/jquery.scrolling-tabs.min.js' %}"></script> -->
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <!-- Production build -->
+      <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
       <!-- place project specific Javascript in this file -->
       
       <script src="{% static 'js/project.js' %}"></script>
-      
-
     {% endblock javascript %}
   </body>
 </html>

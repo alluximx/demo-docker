@@ -4,7 +4,8 @@
 
 {% block content %}
 
-<!-- <div class="row"> -->
+<div id="create">
+  [[message]]
 <h2>Alta de avalúos</h2>
   <!-- Nav tabs -->
 <br>
@@ -69,3 +70,15 @@
 </div>
 
 {% endblock %}
+{% block javascript %}
+{{ block.super }}
+<script>
+var app = new Vue({
+  delimiters: ['[[', ']]'],
+  el: '#create',
+  data: {
+    message: 'Hola Vue!'
+  }
+})
+</script>
+{% endblock javascript %}
