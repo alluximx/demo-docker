@@ -4,6 +4,9 @@ from django.db import models
 class Cliente(models.Model):
     cliente = models.CharField(null=False, max_length=255)
 
+    def __str__(self):
+        return self.cliente
+
 
 class DatosCliente(models.Model):
     PERSONA_CHOICES = (
