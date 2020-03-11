@@ -76,28 +76,196 @@
   </ul>
   <br>
   <div class="tab-content" id="myTabContent">
-    <div
-      class="tab-pane fade"
+    <!-- Solicitud tab -->
+    <div class="tab-pane fade"
       :class="{ 'active show': isActive('solicitud') }"
       id="solicitud"
       role="tabpanel"
       aria-labelledby="solicitud-tab">
-      <form action="" method="POST">
-        <p>Institución o cliente</p>
-        {% crispy cliente_form %}
-        {% crispy datoscliente_form %}
+
+      <label><strong>Institución o cliente</strong></label>
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="clientInput">Cliente</label>
+            <input type="text" class="form-control" id="clienteInput">
+          </div>
+          <div class="form-group col-md-1"></div>
+          <div class="form-group col-md-7">
+            <label>Tipo de persona</label>
+            <div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                <label class="form-check-label" for="inlineRadio1">Persona física</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2" checked>
+                <label class="form-check-label" for="inlineRadio2">Persona moral</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputNombreCliente">Nombre o razón social</label>
+            <input type="text" class="form-control" id="inputNombreCliente">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputPaternoCliente">Apellido paterno</label>
+            <input type="text" class="form-control" id="inputPaternoCliente">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputMaternoCliente">Apellido materno</label>
+            <input type="text" class="form-control" id="inputMaternoCliente">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputRfcCliente">RFC</label>
+            <input type="text" class="form-control" id="inputRfcCliente">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputCurpCliente">CURP</label>
+            <input type="text" class="form-control" id="inputCurpCliente">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputNssCliente">NSS</label>
+            <input type="text" class="form-control" id="inputNssCliente">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputTelefonoCliente">Teléfono</label>
+            <input type="phone" class="form-control" id="inputTelefonoCliente">
+          </div>
+        </div>
+
         <hr>
-        <p>Información del mancomunado</p>
-        {% crispy mancomunado_form %}
+        <label><strong>Información del mancomunado</strong></label>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputNombreMancomunado">Nombre</label>
+            <input type="text" class="form-control" id="inputNombreMancomunado">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputRfcMancomunado">RFC</label>
+            <input type="text" class="form-control" id="inputRfcMancomunado">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputTelefonoMancomunado">Teléfono</label>
+            <input type="text" class="form-control" id="inputTelefonoMancomunado">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputCelularMancomunado">Celular</label>
+            <input type="phone" class="form-control" id="inputCelularMancomunado">
+          </div>
+        </div>
+
         <hr>
-        <p>Folios y fechas de solicitud</p>
-        {% crispy avaluo1_form %}
+        <label><strong>Folios y fechas de solicitud</strong></label>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputFolio">Folio institución que originó el servicio</label>
+            <input type="text" class="form-control" id="inputFolio">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputFechaAsignacion">Fecha de asignación</label>
+            <input type="date" class="form-control" id="inputFechaAsignacion">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputFechaCompromiso">Fecha compromiso de entrega</label>
+            <input type="date" class="form-control" id="inputFechaCompromiso">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputFechaSolicitudCorreo">Fecha solicitud correo</label>
+            <input type="date" class="form-control" id="inputFechaSolicitudCorreo">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputCredito">Crédito fiscal / Número de resolución</label>
+            <input type="text" class="form-control" id="inputCredito">
+          </div>
+        </div>
+
         <hr>
-        <p>Datos del inmueble</p>
-        {% crispy avaluo2_form %}
-        <button type="submit" class="btn btn-success">Aceptar</button>
+        <label><strong>Datos del inmueble</strong></label>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputCp">CP</label>
+            <input type="text" class="form-control" id="inputCp">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputCalle">Calle</label>
+            <input type="text" class="form-control" id="inputCalle">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputExt">No. Ext</label>
+            <input type="text" class="form-control" id="inputExt">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputInt">No. Int</label>
+            <input type="text" class="form-control" id="inputInt">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputColonia">Colonia</label>
+            <input type="text" class="form-control" id="inputColonia">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputLote">Lote</label>
+            <input type="text" class="form-control" id="inputLote">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputManzana">Manzana</label>
+            <input type="text" class="form-control" id="inputManzana">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputEstado">Estado</label>
+            <input type="text" class="form-control" id="inputEstado">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputMunicipio">Municipio</label>
+            <input type="text" class="form-control" id="inputMunicipio">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputLocalidad">Localidad</label>
+            <input type="text" class="form-control" id="inputLocalidad">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputInmuebleLocalizado">Inmueble Localizado</label>
+            <input type="text" class="form-control" id="inputInmuebleLocalizado">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputTitular">Titular de ADR</label>
+            <input type="text" class="form-control" id="inputTitular">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputLocalizacion">Localización (ADR)</label>
+            <input type="text" class="form-control" id="inputLocalizacion">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputDomicilioAdr">Domicilio (ADR)</label>
+            <input type="text" class="form-control" id="inputDomicilioAdr">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputAlr">ALR (Solicitante)</label>
+            <input type="text" class="form-control" id="inputAlr">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Aceptar</button>
       </form>
     </div>
+    <!-- End solicitud tab -->
     <div class="tab-pane fade" :class="{ 'active show': isActive('tipo') }" id="tipo">
       Tipo y complejidad del avalúo
     </div>
