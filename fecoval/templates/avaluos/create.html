@@ -87,8 +87,12 @@
       <form>
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label for="clientInput">Cliente</label>
-            <input type="text" class="form-control" id="clienteInput">
+            <label class="d-inline-block" for="clientSelect">Cliente</label>
+            <select name="clientSelect" class="form-control d-inline-block" v-model="clienteSelected">
+              <option v-for="item in clientes" v-bind:value="item.id">
+                [[ item.cliente ]]
+              </option>
+            </select>
           </div>
           <div class="form-group col-md-1"></div>
           <div class="form-group col-md-7">
@@ -306,11 +310,19 @@
 {% block javascript %}
 {{ block.super }}
 <script>
+var token = "{{ csrf_token }}";
 var app = new Vue({
   delimiters: ['[[', ']]'],
   el: '#create',
   data: {
+    csrf_token: token,
     activeItem: 'solicitud',
+    clienteSelected: '',
+    clientes: '',
+  },
+  mounted: function() {
+    console.log(this.csrf_token);
+    this.getClientes();
   },
   methods: {
     isActive (menuItem) {
@@ -318,7 +330,17 @@ var app = new Vue({
     },
     setActive (menuItem) {
       this.activeItem = menuItem
-    }
+    },
+    getClientes: function() {
+      axios.get('/api/cliente/')
+        .then(response => {
+          this.clientes = response.data;
+          console.log(this.clientes);
+        })
+        .catch( (err) => {
+          console.log(err);
+        })
+    },
   }
 })
 </script>
