@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 from fecoval.avaluos.views import avaluos_list
-
+from .routers import router
 
 urlpatterns = [
     path("", avaluos_list, name="home"),
@@ -22,6 +22,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     path("avaluos/", include("fecoval.avaluos.urls", namespace="avaluos")),
+    path("api/", include(router.urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
