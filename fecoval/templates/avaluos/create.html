@@ -89,11 +89,14 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label class="d-inline-block" for="clientSelect">Cliente</label>
-            <select name="clientSelect" class="form-control d-inline-block" v-model="nuevaSolicitud.cliente">
-              <option v-for="item in clientes" v-bind:value="item.id">
-                [[ item.cliente ]]
-              </option>
-            </select>
+            <div class="field" :class="{error: errors.has('clientSelect')}">
+              <div v-if="errors.has('clientSelect')" class="invalid-feedback d-block">[[ errors.first('clientSelect') ]]</div>
+              <select name="clientSelect" class="form-control d-inline-block" v-validate="'required'" v-model="nuevaSolicitud.cliente">
+                <option v-for="item in clientes" v-bind:value="item.id">
+                  [[ item.cliente ]]
+                </option>
+              </select>
+            </div>
           </div>
           <div class="form-group col-md-1"></div>
           <div class="form-group col-md-7">
@@ -233,11 +236,11 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputEstado">Estado</label>
-            <input type="text" v-model="nuevaSolicitud.estado" class="form-control" id="inputEstado">
+            <!-- <input type="text" v-model="nuevaSolicitud.estado" class="form-control" id="inputEstado"> -->
           </div>
           <div class="form-group col-md-3">
             <label for="inputMunicipio">Municipio</label>
-            <input type="text" v-model="nuevaSolicitud.municipio" class="form-control" id="inputMunicipio">
+            <!-- <input type="text" v-model="nuevaSolicitud.municipio" class="form-control" id="inputMunicipio"> -->
           </div>
           <div class="form-group col-md-3">
             <label for="inputLocalidad">Localidad</label>
@@ -254,7 +257,7 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputTitular">Titular de ADR</label>
-            <input type="text" v-model="nuevaSolicitud.titular_adr" class="form-control" id="inputTitular">
+            <!-- <input type="text" v-model="nuevaSolicitud.titular_adr" class="form-control" id="inputTitular"> -->
           </div>
           <div class="form-group col-md-3">
             <label for="inputLocalizacion">Localización (ADR)</label>
@@ -315,6 +318,7 @@
 {{ block.super }}
 <script>
 var token = "{{ csrf_token }}";
+Vue.use(VeeValidate, {locale: 'es'});
 var app = new Vue({
   delimiters: ['[[', ']]'],
   el: '#create',
@@ -351,16 +355,17 @@ var app = new Vue({
       colonia: '',
       lote: '',
       manzana: '',
-      estado: '',
-      municipio: '',
+      // estado: '',
+      // municipio: '',
       localidad: '',
       localizado: '',
-      titular_adr: '',
+      // titular_adr: '',
       localizacion_adr: '',
       domicilio_adr: '',
       alr: '',
     },
     activeItem: 'solicitud',
+    submited: false,
   },
   mounted: function() {
     console.log(this.csrf_token);
@@ -384,17 +389,23 @@ var app = new Vue({
         })
     },
     addSolicitud: function() {
-      console.log(this.nuevaSolicitud);
-      axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
-        'X-CSRFToken': this.csrf_token,
-        'Content-Type': 'application/json'
-      }})
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);;
-      })
+      this.$validator.validate().then(result => {
+        this.submitted = true;
+        if (!result) {
+            return;
+        };
+        console.log(this.nuevaSolicitud);
+        axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
+          'X-CSRFToken': this.csrf_token,
+          'Content-Type': 'application/json'
+        }})
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      });
     }
   }
 })
