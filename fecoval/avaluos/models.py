@@ -36,7 +36,7 @@ class Estado(models.Model):
     abrev = models.CharField(null=True, max_length=255)
     is_active = models.BooleanField(null=False, default=1)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.nombre is None:
             return "N/D"
         else:
@@ -49,7 +49,7 @@ class Municipio(models.Model):
     nombre = models.CharField(null=False, max_length=255)
     is_active = models.BooleanField(null=False, default=1)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.nombre is None:
             return "N/D"
         else:
@@ -62,7 +62,7 @@ class Localidad(models.Model):
     nombre = models.CharField(null=False, max_length=255)
     is_active = models.BooleanField(null=False, default=1)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.nombre is None:
             return "N/D"
         else:
@@ -96,3 +96,6 @@ class Avaluo(models.Model):
     localizacion_adr = models.CharField(null=True, max_length=255)
     domicilio_adr = models.CharField(null=True, max_length=255)
     alr = models.CharField(null=True, max_length=255)
+
+    def __str__(self):
+        return str(self.pk)
