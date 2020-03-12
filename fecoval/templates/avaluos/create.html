@@ -174,25 +174,25 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputFolio">Folio institución que originó el servicio</label>
-            <input type="text" class="form-control" id="inputFolio">
+            <input type="text" v-model="nuevaSolicitud.folio" class="form-control" id="inputFolio">
           </div>
           <div class="form-group col-md-4">
             <label for="inputFechaAsignacion">Fecha de asignación</label>
-            <input type="date" class="form-control" id="inputFechaAsignacion">
+            <input type="date" v-model="nuevaSolicitud.fecha_asignacion" class="form-control" id="inputFechaAsignacion">
           </div>
           <div class="form-group col-md-4">
             <label for="inputFechaCompromiso">Fecha compromiso de entrega</label>
-            <input type="date" class="form-control" id="inputFechaCompromiso">
+            <input type="date" v-model="nuevaSolicitud.fecha_compromiso" class="form-control" id="inputFechaCompromiso">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputFechaSolicitudCorreo">Fecha solicitud correo</label>
-            <input type="date" class="form-control" id="inputFechaSolicitudCorreo">
+            <input type="date" v-model="nuevaSolicitud.fecha_solicitud_correo" class="form-control" id="inputFechaSolicitudCorreo">
           </div>
           <div class="form-group col-md-4">
             <label for="inputCredito">Crédito fiscal / Número de resolución</label>
-            <input type="text" class="form-control" id="inputCredito">
+            <input type="text" v-model="nuevaSolicitud.credito_fiscal" class="form-control" id="inputCredito">
           </div>
         </div>
 
@@ -201,69 +201,72 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputCp">CP</label>
-            <input type="text" class="form-control" id="inputCp">
+            <input type="text" v-model="nuevaSolicitud.codigo_postal" class="form-control" id="inputCp">
           </div>
           <div class="form-group col-md-3">
             <label for="inputCalle">Calle</label>
-            <input type="text" class="form-control" id="inputCalle">
+            <input type="text" v-model="nuevaSolicitud.calle" class="form-control" id="inputCalle">
           </div>
           <div class="form-group col-md-3">
             <label for="inputExt">No. Ext</label>
-            <input type="text" class="form-control" id="inputExt">
+            <input type="text" v-model="nuevaSolicitud.no_ext" class="form-control" id="inputExt">
           </div>
           <div class="form-group col-md-3">
             <label for="inputInt">No. Int</label>
-            <input type="text" class="form-control" id="inputInt">
+            <input type="text" v-model="nuevaSolicitud.no_int" class="form-control" id="inputInt">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputColonia">Colonia</label>
-            <input type="text" class="form-control" id="inputColonia">
+            <input type="text" v-model="nuevaSolicitud.colonia" class="form-control" id="inputColonia">
           </div>
           <div class="form-group col-md-3">
             <label for="inputLote">Lote</label>
-            <input type="text" class="form-control" id="inputLote">
+            <input type="text" v-model="nuevaSolicitud.lote" class="form-control" id="inputLote">
           </div>
           <div class="form-group col-md-3">
             <label for="inputManzana">Manzana</label>
-            <input type="text" class="form-control" id="inputManzana">
+            <input type="text" v-model="nuevaSolicitud.manzana" class="form-control" id="inputManzana">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputEstado">Estado</label>
-            <input type="text" class="form-control" id="inputEstado">
+            <input type="text" v-model="nuevaSolicitud.estado" class="form-control" id="inputEstado">
           </div>
           <div class="form-group col-md-3">
             <label for="inputMunicipio">Municipio</label>
-            <input type="text" class="form-control" id="inputMunicipio">
+            <input type="text" v-model="nuevaSolicitud.municipio" class="form-control" id="inputMunicipio">
           </div>
           <div class="form-group col-md-3">
             <label for="inputLocalidad">Localidad</label>
-            <input type="text" class="form-control" id="inputLocalidad">
+            <input type="text" v-model="nuevaSolicitud.localidad" class="form-control" id="inputLocalidad">
           </div>
           <div class="form-group col-md-3">
-            <label for="inputInmuebleLocalizado">Inmueble Localizado</label>
-            <input type="text" class="form-control" id="inputInmuebleLocalizado">
+            <label for="localizadoSelect">Inmueble Localizado</label>
+            <select name="localizadoSelect" class="form-control" v-model="nuevaSolicitud.localizado">
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputTitular">Titular de ADR</label>
-            <input type="text" class="form-control" id="inputTitular">
+            <input type="text" v-model="nuevaSolicitud.titular_adr" class="form-control" id="inputTitular">
           </div>
           <div class="form-group col-md-3">
             <label for="inputLocalizacion">Localización (ADR)</label>
-            <input type="text" class="form-control" id="inputLocalizacion">
+            <input type="text" v-model="nuevaSolicitud.localizacion_adr" class="form-control" id="inputLocalizacion">
           </div>
           <div class="form-group col-md-3">
             <label for="inputDomicilioAdr">Domicilio (ADR)</label>
-            <input type="text" class="form-control" id="inputDomicilioAdr">
+            <input type="text" v-model="nuevaSolicitud.domicilio_adr" class="form-control" id="inputDomicilioAdr">
           </div>
           <div class="form-group col-md-3">
             <label for="inputAlr">ALR (Solicitante)</label>
-            <input type="text" class="form-control" id="inputAlr">
+            <input type="text" v-model="nuevaSolicitud.alr" class="form-control" id="inputAlr">
           </div>
         </div>
 
@@ -335,7 +338,27 @@ var app = new Vue({
         rfc: '',
         telefono: '',
         celular: ''
-      }
+      },
+      folio: '',
+      fecha_asignacion: '',
+      fecha_compromiso: '',
+      fecha_solicitud_correo: '',
+      credito_fiscal: '',
+      codigo_postal: '',
+      calle: '',
+      no_ext: '',
+      no_int: '',
+      colonia: '',
+      lote: '',
+      manzana: '',
+      estado: '',
+      municipio: '',
+      localidad: '',
+      localizado: '',
+      titular_adr: '',
+      localizacion_adr: '',
+      domicilio_adr: '',
+      alr: '',
     },
     activeItem: 'solicitud',
   },
