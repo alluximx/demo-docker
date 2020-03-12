@@ -89,7 +89,7 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label class="d-inline-block" for="clientSelect">Cliente</label>
-            <select name="clientSelect" class="form-control d-inline-block" v-model="newSolicitud.cliente">
+            <select name="clientSelect" class="form-control d-inline-block" v-model="nuevaSolicitud.cliente">
               <option v-for="item in clientes" v-bind:value="item.id">
                 [[ item.cliente ]]
               </option>
@@ -100,11 +100,11 @@
             <label>Tipo de persona</label>
             <div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                <input class="form-check-input" type="radio" v-model="nuevaSolicitud.datos_cliente.persona" name="inlineRadioOptions" id="inlineRadio1" value="F">
                 <label class="form-check-label" for="inlineRadio1">Persona física</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2" checked>
+                <input class="form-check-input" type="radio" v-model="nuevaSolicitud.datos_cliente.persona" name="inlineRadioOptions" id="inlineRadio2" value="M" checked>
                 <label class="form-check-label" for="inlineRadio2">Persona moral</label>
               </div>
             </div>
@@ -117,34 +117,34 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputNombreCliente">Nombre o razón social</label>
-            <input type="text" class="form-control" id="inputNombreCliente">
+            <input type="text" v-model="nuevaSolicitud.datos_cliente.nombre" class="form-control" id="inputNombreCliente">
           </div>
           <div class="form-group col-md-4">
             <label for="inputPaternoCliente">Apellido paterno</label>
-            <input type="text" class="form-control" id="inputPaternoCliente">
+            <input type="text" v-model="nuevaSolicitud.datos_cliente.apellido_paterno" class="form-control" id="inputPaternoCliente">
           </div>
           <div class="form-group col-md-4">
             <label for="inputMaternoCliente">Apellido materno</label>
-            <input type="text" class="form-control" id="inputMaternoCliente">
+            <input type="text" v-model="nuevaSolicitud.datos_cliente.apellido_materno" class="form-control" id="inputMaternoCliente">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputRfcCliente">RFC</label>
-            <input type="text" class="form-control" id="inputRfcCliente">
+            <input type="text" v-model="nuevaSolicitud.datos_cliente.rfc" class="form-control" id="inputRfcCliente">
           </div>
           <div class="form-group col-md-3">
             <label for="inputCurpCliente">CURP</label>
-            <input type="text" class="form-control" id="inputCurpCliente">
+            <input type="text" v-model="nuevaSolicitud.datos_cliente.curp" class="form-control" id="inputCurpCliente">
           </div>
           <div class="form-group col-md-3">
             <label for="inputNssCliente">NSS</label>
-            <input type="text" class="form-control" id="inputNssCliente">
+            <input type="text" v-model="nuevaSolicitud.datos_cliente.nss" class="form-control" id="inputNssCliente">
           </div>
           <div class="form-group col-md-3">
             <label for="inputTelefonoCliente">Teléfono</label>
-            <input type="phone" class="form-control" id="inputTelefonoCliente">
+            <input type="phone" v-model="nuevaSolicitud.datos_cliente.telefono" class="form-control" id="inputTelefonoCliente">
           </div>
         </div>
 
@@ -317,10 +317,21 @@ var app = new Vue({
   el: '#create',
   data: {
     csrf_token: token,
-    newSolicitud: {},
-    activeItem: 'solicitud',
-    cliente: '',
     clientes: '',
+    nuevaSolicitud: {
+      cliente: '',
+      datos_cliente: {
+        persona: '',
+        nombre: '',
+        apellido_paterno: '',
+        apellido_materno: '',
+        rfc: '',
+        curp: '',
+        nss: '',
+        telefono: '',
+      },
+    },
+    activeItem: 'solicitud',
   },
   mounted: function() {
     console.log(this.csrf_token);
@@ -344,8 +355,8 @@ var app = new Vue({
         })
     },
     addSolicitud: function() {
-      console.log(this.newSolicitud);
-      axios.post('/api/avaluo/', this.newSolicitud, {'headers': {
+      console.log(this.nuevaSolicitud);
+      axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
         'X-CSRFToken': this.csrf_token,
         'Content-Type': 'application/json'
       }})
