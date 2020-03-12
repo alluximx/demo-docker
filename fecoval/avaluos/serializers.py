@@ -24,6 +24,9 @@ class AvaluoSerializer(serializers.ModelSerializer):
     cliente = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all())
     datos_cliente = DatosClienteSerializer()
     mancomunado = MancomunadoSerializer()
+    fecha_asignacion = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
+    fecha_compromiso = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
+    fecha_solicitud_correo = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
 
     class Meta:
         model = Avaluo
