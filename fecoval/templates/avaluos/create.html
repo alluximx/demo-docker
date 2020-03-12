@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
 
 {% block content %}
 
 <div id="create">
+  <!-- https://johnfraney.ca/posts/2018/05/10/writing-reusable-modelform-templates-django/ -->
+  <!-- <h2>{% if object %}Update{% else %}Create{% endif %} Author</h2> -->
   <h2>Alta de avalúos</h2>
   <!-- Nav tabs -->
   <br>
@@ -84,11 +85,11 @@
       aria-labelledby="solicitud-tab">
 
       <label><strong>Institución o cliente</strong></label>
-      <form>
+      <form v-on:submit.prevent="addSolicitud()">
         <div class="form-row">
           <div class="form-group col-md-4">
             <label class="d-inline-block" for="clientSelect">Cliente</label>
-            <select name="clientSelect" class="form-control d-inline-block" v-model="clienteSelected">
+            <select name="clientSelect" class="form-control d-inline-block" v-model="newSolicitud.cliente">
               <option v-for="item in clientes" v-bind:value="item.id">
                 [[ item.cliente ]]
               </option>
@@ -316,8 +317,9 @@ var app = new Vue({
   el: '#create',
   data: {
     csrf_token: token,
+    newSolicitud: {},
     activeItem: 'solicitud',
-    clienteSelected: '',
+    cliente: '',
     clientes: '',
   },
   mounted: function() {
@@ -333,14 +335,27 @@ var app = new Vue({
     },
     getClientes: function() {
       axios.get('/api/cliente/')
-        .then(response => {
+        .then((response) => {
           this.clientes = response.data;
           console.log(this.clientes);
         })
-        .catch( (err) => {
+        .catch((err) => {
           console.log(err);
         })
     },
+    addSolicitud: function() {
+      console.log(this.newSolicitud);
+      axios.post('/api/avaluo/', this.newSolicitud, {'headers': {
+        'X-CSRFToken': this.csrf_token,
+        'Content-Type': 'application/json'
+      }})
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);;
+      })
+    }
   }
 })
 </script>
