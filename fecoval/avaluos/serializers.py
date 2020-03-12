@@ -34,12 +34,13 @@ class AvaluoSerializer(serializers.ModelSerializer):
         datos_cliente_data = validated_data.pop('datos_cliente', None)
         mancomunado_data = validated_data.pop('mancomunado', None)
 
+        avaluo = Avaluo.objects.create(**validated_data)
+
         if datos_cliente_data:
-            datos_cliente = DatosCliente.objects.create(**datos_cliente_data)
+            datos_cliente = DatosCliente.objects.create(avaluo=avaluo, **datos_cliente_data)
             validated_data['datos_cliente'] = datos_cliente
         if mancomunado_data:
-            mancomunado = Mancomunado.objects.create(**mancomunado_data)
+            mancomunado = Mancomunado.objects.create(avaluo=avaluo, **mancomunado_data)
             validated_data['mancomunado'] = mancomunado
 
-        Avaluo.objects.create(**validated_data)
         return validated_data
