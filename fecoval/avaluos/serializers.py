@@ -31,12 +31,15 @@ class AvaluoSerializer(serializers.ModelSerializer):
         # fields = ['cliente', 'datos_cliente', 'mancomunado']
 
     def create(self, validated_data):
-        avaluo = Avaluo(cliente=validated_data.get('cliente'))
-        datos_cliente = validated_data.get('datos_cliente')
-        mancomunado = validated_data.get('mancomunado')
-        datos_cliente_obj = DatosCliente.objects.create(**datos_cliente)
-        mancomunado_obj = Mancomunado.objects.create(**mancomunado)
-        avaluo.datos_cliente = datos_cliente_obj
-        avaluo.mancomunado = mancomunado_obj
-        avaluo.save()
+        datos_cliente_data = validated_data.pop('datos_cliente', None)
+        mancomunado_data = validated_data.pop('mancomunado', None)
+
+        if datos_cliente_data:
+            datos_cliente = DatosCliente.objects.create(**datos_cliente_data)
+            validated_data['datos_cliente'] = datos_cliente
+        if mancomunado_data:
+            mancomunado = Mancomunado.objects.create(**mancomunado_data)
+            validated_data['mancomunado'] = mancomunado
+
+        Avaluo.objects.create(**validated_data)
         return validated_data
