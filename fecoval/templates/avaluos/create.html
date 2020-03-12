@@ -153,19 +153,19 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputNombreMancomunado">Nombre</label>
-            <input type="text" class="form-control" id="inputNombreMancomunado">
+            <input type="text" v-model="nuevaSolicitud.mancomunado.nombre" class="form-control" id="inputNombreMancomunado">
           </div>
           <div class="form-group col-md-3">
             <label for="inputRfcMancomunado">RFC</label>
-            <input type="text" class="form-control" id="inputRfcMancomunado">
+            <input type="text" v-model="nuevaSolicitud.mancomunado.rfc" class="form-control" id="inputRfcMancomunado">
           </div>
           <div class="form-group col-md-3">
             <label for="inputTelefonoMancomunado">Teléfono</label>
-            <input type="text" class="form-control" id="inputTelefonoMancomunado">
+            <input type="text" v-model="nuevaSolicitud.mancomunado.telefono" class="form-control" id="inputTelefonoMancomunado">
           </div>
           <div class="form-group col-md-3">
             <label for="inputCelularMancomunado">Celular</label>
-            <input type="phone" class="form-control" id="inputCelularMancomunado">
+            <input type="phone" v-model="nuevaSolicitud.mancomunado.celular" class="form-control" id="inputCelularMancomunado">
           </div>
         </div>
 
@@ -330,6 +330,12 @@ var app = new Vue({
         nss: '',
         telefono: '',
       },
+      mancomunado: {
+        nombre: '',
+        rfc: '',
+        telefono: '',
+        celular: ''
+      }
     },
     activeItem: 'solicitud',
   },
