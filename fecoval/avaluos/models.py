@@ -74,8 +74,12 @@ class ADR(models.Model):
 
 
 class Avaluo(models.Model):
+    LOCALIZADO_CHOICES = (
+        ('Si', 'Si'),
+        ('No', 'No'),
+    )
     cliente = models.ForeignKey(Cliente, null=True, on_delete=models.CASCADE)
-    datos_cliente = models.ForeignKey(DatosCliente, null=True, on_delete=models.CASCADE)
+    datos_cliente = models.OneToOneField(DatosCliente, null=True, on_delete=models.CASCADE)
     mancomunado = models.OneToOneField(Mancomunado, null=True, on_delete=models.CASCADE)
     folio = models.CharField(null=True, max_length=255)
     fecha_asignacion = models.DateField(null=True)
@@ -92,6 +96,7 @@ class Avaluo(models.Model):
     estado = models.ForeignKey(Estado, null=True, on_delete=models.CASCADE)
     municipio = models.ForeignKey(Municipio, null=True, on_delete=models.CASCADE)
     localidad = models.CharField(null=True, max_length=255)
+    localizado = models.CharField(choices=LOCALIZADO_CHOICES, null=True, max_length=35)
     titular_adr = models.ForeignKey(ADR, null=True, on_delete=models.CASCADE)
     localizacion_adr = models.CharField(null=True, max_length=255)
     domicilio_adr = models.CharField(null=True, max_length=255)
