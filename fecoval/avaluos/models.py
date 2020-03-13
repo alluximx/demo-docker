@@ -11,8 +11,6 @@ class Cliente(models.Model):
 class Estado(models.Model):
     clave = models.CharField(null=True, max_length=255)
     nombre = models.CharField(null=False, max_length=255)
-    abrev = models.CharField(null=True, max_length=255)
-    is_active = models.BooleanField(null=False, default=1)
 
     def __str__(self):
         if self.nombre is None:
@@ -25,7 +23,6 @@ class Municipio(models.Model):
     estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
     clave = models.CharField(null=True, max_length=255)
     nombre = models.CharField(null=False, max_length=255)
-    is_active = models.BooleanField(null=False, default=1)
 
     def __str__(self):
         if self.nombre is None:
@@ -38,7 +35,6 @@ class Localidad(models.Model):
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
     clave = models.CharField(null=True, max_length=255)
     nombre = models.CharField(null=False, max_length=255)
-    is_active = models.BooleanField(null=False, default=1)
 
     def __str__(self):
         if self.nombre is None:
