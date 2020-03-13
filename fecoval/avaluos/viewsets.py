@@ -1,7 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from .models import Cliente, Avaluo
-from .serializers import ClienteSerializer, AvaluoSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from .models import Cliente, Avaluo, Estado, Municipio
+from .serializers import ClienteSerializer, AvaluoSerializer, EstadoSerializer, MunicipioSerializer
 
 
 class ClienteViewSet(viewsets.ReadOnlyModelViewSet):
@@ -10,7 +12,20 @@ class ClienteViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ClienteSerializer
 
 
-class AvaluoViewSet(viewsets.ModelViewSet):
+class AvaluoViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Avaluo.objects.all()
     serializer_class = AvaluoSerializer
+
+
+class EstadoViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Estado.objects.all().order_by('nombre')
+    serializer_class = EstadoSerializer
+
+    @action(detail=True)
+    def municipios(self, request, pk=None):
+        estado = self.get_object()
+        municipios = Municipio.objects.filter(estado=estado).order_by('nombre')
+        municipios_json = MunicipioSerializer(municipios, many=True)
+        return Response(municipios_json.data)

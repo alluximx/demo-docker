@@ -235,12 +235,20 @@
         </div>
         <div class="form-row">
           <div class="form-group col-md-3">
-            <label for="inputEstado">Estado</label>
-            <!-- <input type="text" v-model="nuevaSolicitud.estado" class="form-control" id="inputEstado"> -->
+            <label class="d-inline-block" for="estadoSelect">Estado</label>
+            <select @change="onChangeEstado($event)"name="estadoSelect" class="form-control d-inline-block" v-model="nuevaSolicitud.estado">
+              <option v-for="estado in estados" v-bind:value="estado.id">
+                [[ estado.nombre ]]
+              </option>
+            </select>
           </div>
           <div class="form-group col-md-3">
-            <label for="inputMunicipio">Municipio</label>
-            <!-- <input type="text" v-model="nuevaSolicitud.municipio" class="form-control" id="inputMunicipio"> -->
+            <label class="d-inline-block" for="municipioSelect">Municipio</label>
+            <select name="municipioSelect" class="form-control inline-block" v-model="nuevaSolicitud.municipio">
+              <option v-for="municipio in municipios" v-bind:value="municipio.id">
+                [[ municipio.nombre ]]
+              </option>
+            </select>
           </div>
           <div class="form-group col-md-3">
             <label for="inputLocalidad">Localidad</label>
@@ -325,6 +333,8 @@ var app = new Vue({
   data: {
     csrf_token: token,
     clientes: '',
+    estados: '',
+    municipios: '',
     nuevaSolicitud: {
       cliente: '',
       datos_cliente: {
@@ -355,8 +365,8 @@ var app = new Vue({
       colonia: '',
       lote: '',
       manzana: '',
-      // estado: '',
-      // municipio: '',
+      estado: '',
+      municipio: '',
       localidad: '',
       localizado: '',
       // titular_adr: '',
@@ -369,6 +379,7 @@ var app = new Vue({
   },
   mounted: function() {
     this.getClientes();
+    this.getEstados();
   },
   methods: {
     isActive (menuItem) {
@@ -385,6 +396,28 @@ var app = new Vue({
         .catch((err) => {
           console.log(err);
         })
+    },
+    getEstados: function() {
+      axios.get('/api/estado/')
+        .then((response) => {
+          this.estados = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    getMunicipios: function(estadoId) {
+      axios.get('/api/estado/' + estadoId + '/municipios/')
+        .then(response => {
+          this.municipios = response.data;
+        })
+        .catch(error => {
+          console.log(err);
+        });
+    },
+    onChangeEstado: function(event) {
+      this.getMunicipios(event.target.value);
+      this.nuevaSolicitud.municipio = '';
     },
     addSolicitud: function() {
       this.$validator.validate().then(result => {
