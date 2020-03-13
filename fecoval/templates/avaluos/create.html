@@ -90,7 +90,7 @@
           <div class="form-group col-md-4">
             <label class="d-inline-block" for="clientSelect">Cliente</label>
             <div class="field" :class="{error: errors.has('clientSelect')}">
-              <div v-if="errors.has('clientSelect')" class="invalid-feedback d-block">[[ errors.first('clientSelect') ]]</div>
+              <div v-if="submitted && errors.has('clientSelect')" class="invalid-feedback d-block">[[ errors.first('clientSelect') ]]</div>
               <select name="clientSelect" class="form-control d-inline-block" v-validate="'required'" v-model="nuevaSolicitud.cliente">
                 <option v-for="item in clientes" v-bind:value="item.id">
                   [[ item.cliente ]]
@@ -365,10 +365,9 @@ var app = new Vue({
       alr: '',
     },
     activeItem: 'solicitud',
-    submited: false,
+    submitted: false,
   },
   mounted: function() {
-    console.log(this.csrf_token);
     this.getClientes();
   },
   methods: {
@@ -382,7 +381,6 @@ var app = new Vue({
       axios.get('/api/cliente/')
         .then((response) => {
           this.clientes = response.data;
-          console.log(this.clientes);
         })
         .catch((err) => {
           console.log(err);
@@ -394,7 +392,6 @@ var app = new Vue({
         if (!result) {
             return;
         };
-        console.log(this.nuevaSolicitud);
         axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
           'X-CSRFToken': this.csrf_token,
           'Content-Type': 'application/json'
