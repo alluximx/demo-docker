@@ -12,7 +12,7 @@ class ClienteViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ClienteSerializer
 
 
-class AvaluoViewSet(viewsets.ReadOnlyModelViewSet):
+class AvaluoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Avaluo.objects.all()
     serializer_class = AvaluoSerializer
