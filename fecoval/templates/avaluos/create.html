@@ -199,8 +199,22 @@
             <input type="text" v-model="nuevaSolicitud.datos_cliente.nss" class="form-control" id="inputNssCliente">
           </div>
           <div class="form-group col-md-3">
-            <label for="inputTelefonoCliente">Teléfono</label>
-            <input type="phone" v-model="nuevaSolicitud.datos_cliente.telefono" class="form-control" id="inputTelefonoCliente">
+            <label for="inputTelefonoCliente">Teléfono
+              <div
+                v-if="errors.has('telefono cliente')"
+                class="invalid-feedback d-block">[[ errors.first('telefono cliente') ]]
+              </div>
+            </label>
+            <input
+              type="tel"
+              v-validate="'numeric|max:10'"
+              @keyup.enter="emitValue(!required)"
+              maxlength="10"
+              v-model="nuevaSolicitud.datos_cliente.telefono"
+              class="form-control"
+              name="telefono cliente"
+              autocomplete="nope"
+              id="inputTelefonoCliente">
           </div>
         </div>
 
@@ -228,12 +242,40 @@
               id="inputRfcMancomunado">
           </div>
           <div class="form-group col-md-3">
-            <label for="inputTelefonoMancomunado">Teléfono</label>
-            <input type="text" v-model="nuevaSolicitud.mancomunado.telefono" class="form-control" id="inputTelefonoMancomunado">
+            <label for="inputTelefonoMancomunado">Teléfono
+              <div
+                v-if="errors.has('telefono mancomunado')"
+                class="invalid-feedback d-block">[[ errors.first('telefono mancomunado') ]]
+              </div>
+            </label>
+            <input
+              type="tel"
+              v-validate="'numeric|max:10'"
+              @keyup.enter="emitValue(!required)"
+              maxlength="10"
+              v-model="nuevaSolicitud.mancomunado.telefono"
+              class="form-control"
+              name="telefono mancomunado"
+              autocomplete="nope"
+              id="inputTelefonoMancomunado">
           </div>
           <div class="form-group col-md-3">
-            <label for="inputCelularMancomunado">Celular</label>
-            <input type="phone" v-model="nuevaSolicitud.mancomunado.celular" class="form-control" id="inputCelularMancomunado">
+            <label for="inputCelularMancomunado">Celular
+              <div
+                v-if="errors.has('celular mancomunado')"
+                class="invalid-feedback d-block">[[ errors.first('celular mancomunado') ]]
+              </div>
+            </label>
+            <input
+              type="tel"
+              v-validate="'numeric|max:10'"
+              @keyup.enter="emitValue(!required)"
+              maxlength="10"
+              v-model="nuevaSolicitud.mancomunado.celular"
+              class="form-control"
+              name="celular mancomunado"
+              autocomplete="nope"
+              id="inputCelularMancomunado">
           </div>
         </div>
 
