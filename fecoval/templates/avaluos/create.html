@@ -195,8 +195,21 @@
               id="inputCurpCliente">
           </div>
           <div class="form-group col-md-3">
-            <label for="inputNssCliente">NSS</label>
-            <input type="text" v-model="nuevaSolicitud.datos_cliente.nss" class="form-control" id="inputNssCliente">
+            <label for="inputNssCliente">NSS
+              <div
+                v-if="errors.has('nss cliente')"
+                class="invalid-feedback d-block">[[ errors.first('nss cliente') ]]
+              </div>
+            </label>
+            <input
+              type="text"
+              v-validate="'numeric'"
+              v-model="nuevaSolicitud.datos_cliente.nss"
+              class="form-control"
+              @keyup.enter="emitValue(!required)"
+              name="nss cliente"
+              autocomplete="nope"
+              id="inputNssCliente">
           </div>
           <div class="form-group col-md-3">
             <label for="inputTelefonoCliente">Teléfono
