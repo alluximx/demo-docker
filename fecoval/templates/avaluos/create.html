@@ -88,10 +88,17 @@
       <form v-on:submit.prevent="addSolicitud()">
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label class="d-inline-block" for="clientSelect">Cliente</label>
-            <div class="field" :class="{error: errors.has('clientSelect')}">
-              <div v-if="submitted && errors.has('clientSelect')" class="invalid-feedback d-block">[[ errors.first('clientSelect') ]]</div>
-              <select name="clientSelect" class="form-control d-inline-block" v-validate="'required'" v-model="nuevaSolicitud.cliente">
+            <label class="d-inline-block" for="institución o cliente">Cliente</label>
+            <div class="field" :class="{error: errors.has('institución o cliente')}">
+              <div
+                v-if="submitted && errors.has('institución o cliente')"
+                class="invalid-feedback d-block">[[ errors.first('institución o cliente') ]]
+              </div>
+              <select
+                name="institución o cliente"
+                class="form-control d-inline-block"
+                v-validate="'required'"
+                v-model="nuevaSolicitud.cliente">
                 <option v-for="item in clientes" v-bind:value="item.id">
                   [[ item.cliente ]]
                 </option>
@@ -103,11 +110,26 @@
             <label>Tipo de persona</label>
             <div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" v-model="nuevaSolicitud.datos_cliente.persona" name="inlineRadioOptions" id="inlineRadio1" value="F">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  @change="onChangePersona($event)"
+                  v-model="nuevaSolicitud.datos_cliente.persona"
+                  name="inlineRadioOptions"
+                  id="inlineRadio1"
+                  value="F">
                 <label class="form-check-label" for="inlineRadio1">Persona física</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" v-model="nuevaSolicitud.datos_cliente.persona" name="inlineRadioOptions" id="inlineRadio2" value="M" checked>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  @change="onChangePersona($event)"
+                  v-model="nuevaSolicitud.datos_cliente.persona"
+                  name="inlineRadioOptions"
+                  id="inlineRadio2"
+                  value="M"
+                  checked>
                 <label class="form-check-label" for="inlineRadio2">Persona moral</label>
               </div>
             </div>
@@ -120,26 +142,57 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputNombreCliente">Nombre o razón social</label>
-            <input type="text" v-model="nuevaSolicitud.datos_cliente.nombre" class="form-control" id="inputNombreCliente">
+            <input
+              type="text"
+              v-model="nuevaSolicitud.datos_cliente.nombre"
+              class="form-control"
+              id="inputNombreCliente">
           </div>
           <div class="form-group col-md-4">
             <label for="inputPaternoCliente">Apellido paterno</label>
-            <input type="text" v-model="nuevaSolicitud.datos_cliente.apellido_paterno" class="form-control" id="inputPaternoCliente">
+            <input
+              type="text"
+              :readonly="nuevaSolicitud.datos_cliente.persona === 'M'"
+              v-model="nuevaSolicitud.datos_cliente.apellido_paterno"
+              class="form-control"
+              id="inputPaternoCliente">
           </div>
           <div class="form-group col-md-4">
             <label for="inputMaternoCliente">Apellido materno</label>
-            <input type="text" v-model="nuevaSolicitud.datos_cliente.apellido_materno" class="form-control" id="inputMaternoCliente">
+            <input
+              type="text"
+              :readonly="nuevaSolicitud.datos_cliente.persona === 'M'"
+              v-model="nuevaSolicitud.datos_cliente.apellido_materno"
+              class="form-control"
+              id="inputMaternoCliente">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-3">
-            <label for="inputRfcCliente">RFC</label>
-            <input type="text" v-model="nuevaSolicitud.datos_cliente.rfc" class="form-control" id="inputRfcCliente">
+            <label for="inputRfcCliente">RFC (<span v-text="maxRfc - nuevaSolicitud.datos_cliente.rfc.length"></span>)
+              <div v-if="errors.has('rfc cliente')" class="invalid-feedback d-block">[[ errors.first('rfc cliente') ]]</div>
+            </label>
+            <input
+              style="text-transform: uppercase;"
+              type="text"
+              v-validate="'min:'+maxRfc"
+              @keyup.enter="emitValue(!required)"
+              :maxlength="maxRfc"
+              v-model="nuevaSolicitud.datos_cliente.rfc"
+              class="form-control"
+              name="rfc cliente"
+              autocomplete="off"
+              id="inputRfcCliente">
           </div>
           <div class="form-group col-md-3">
             <label for="inputCurpCliente">CURP</label>
-            <input type="text" v-model="nuevaSolicitud.datos_cliente.curp" class="form-control" id="inputCurpCliente">
+            <input
+              type="text"
+              :readonly="nuevaSolicitud.datos_cliente.persona === 'M'"
+              v-model="nuevaSolicitud.datos_cliente.curp"
+              class="form-control"
+              id="inputCurpCliente">
           </div>
           <div class="form-group col-md-3">
             <label for="inputNssCliente">NSS</label>
@@ -159,8 +212,20 @@
             <input type="text" v-model="nuevaSolicitud.mancomunado.nombre" class="form-control" id="inputNombreMancomunado">
           </div>
           <div class="form-group col-md-3">
-            <label for="inputRfcMancomunado">RFC</label>
-            <input type="text" v-model="nuevaSolicitud.mancomunado.rfc" class="form-control" id="inputRfcMancomunado">
+            <label for="inputRfcMancomunado">RFC (<span v-text="maxRfcMancomunado - nuevaSolicitud.mancomunado.rfc.length"></span>)
+              <div v-if="errors.has('rfc mancomunado')" class="invalid-feedback d-block">[[ errors.first('rfc mancomunado') ]]</div>
+            </label>
+            <input
+              type="text"
+              style="text-transform: uppercase;"
+              v-validate="'min:'+maxRfcMancomunado"
+              @keyup.enter="emitValue(!required)"
+              :maxlength="maxRfcMancomunado"
+              v-model="nuevaSolicitud.mancomunado.rfc"
+              class="form-control"
+              name="rfc mancomunado"
+              autocomplete="off"
+              id="inputRfcMancomunado">
           </div>
           <div class="form-group col-md-3">
             <label for="inputTelefonoMancomunado">Teléfono</label>
@@ -331,6 +396,8 @@ var app = new Vue({
   delimiters: ['[[', ']]'],
   el: '#create',
   data: {
+    maxRfc: 12,
+    maxRfcMancomunado: 12,
     csrf_token: token,
     clientes: '',
     estados: '',
@@ -338,7 +405,7 @@ var app = new Vue({
     nuevaSolicitud: {
       cliente: '',
       datos_cliente: {
-        persona: '',
+        persona: 'M',
         nombre: '',
         apellido_paterno: '',
         apellido_materno: '',
@@ -419,12 +486,26 @@ var app = new Vue({
       this.getMunicipios(event.target.value);
       this.nuevaSolicitud.municipio = '';
     },
+    onChangePersona: function(event) {
+      var tipoPersona = event.target.value;
+      this.nuevaSolicitud.datos_cliente.rfc = '';
+      if (tipoPersona === 'F') {
+        this.maxRfc = 13;
+      } else if (tipoPersona === 'M') {
+        this.maxRfc = 12;
+        this.nuevaSolicitud.datos_cliente.apellido_paterno = '';
+        this.nuevaSolicitud.datos_cliente.apellido_materno = '';
+        this.nuevaSolicitud.datos_cliente.curp = '';
+      }
+    },
     addSolicitud: function() {
       this.$validator.validate().then(result => {
         this.submitted = true;
         if (!result) {
             return;
         };
+        this.nuevaSolicitud.datos_cliente.rfc = this.nuevaSolicitud.datos_cliente.rfc.toUpperCase();
+        this.nuevaSolicitud.mancomunado.rfc = this.nuevaSolicitud.mancomunado.rfc.toUpperCase();
         axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
           'X-CSRFToken': this.csrf_token,
           'Content-Type': 'application/json'
