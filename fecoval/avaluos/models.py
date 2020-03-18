@@ -45,6 +45,20 @@ class Localidad(models.Model):
 
 class ADR(models.Model):
     nombre = models.CharField(null=False, max_length=255)
+    titular = models.CharField(blank=True, null=True, max_length=255)
+    localizacion = models.CharField(blank=True, null=True, max_length=255)
+    domicilio = models.CharField(blank=True, null=True, max_length=255)
+
+    def __str__(self):
+        return self.nombre
+
+
+class ALR(models.Model):
+    adr = models.ForeignKey(ADR, on_delete=models.CASCADE, related_name='alr')
+    nombre = models.CharField(null=False, max_length=255)
+
+    def __str__(self):
+        return self.nombre
 
 
 class Avaluo(models.Model):

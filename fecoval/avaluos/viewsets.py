@@ -2,14 +2,20 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Cliente, Avaluo, Estado, Municipio
-from .serializers import ClienteSerializer, AvaluoSerializer, EstadoSerializer, MunicipioSerializer
+from .models import Cliente, Avaluo, Estado, Municipio, ADR
+from .serializers import ClienteSerializer, AvaluoSerializer, EstadoSerializer, MunicipioSerializer, ADRSerializer
 
 
 class ClienteViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
+
+
+class ADRViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ADR.objects.all()
+    serializer_class = ADRSerializer
 
 
 class AvaluoViewSet(viewsets.ModelViewSet):

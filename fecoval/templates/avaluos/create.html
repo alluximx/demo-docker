@@ -356,7 +356,7 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label class="d-inline-block" for="estadoSelect">Estado</label>
-            <select @change="onChangeEstado($event)"name="estadoSelect" class="form-control d-inline-block" v-model="nuevaSolicitud.estado">
+            <select @change="onChangeEstado($event)" name="estadoSelect" class="form-control d-inline-block" v-model="nuevaSolicitud.estado">
               <option v-for="estado in estados" v-bind:value="estado.id">
                 [[ estado.nombre ]]
               </option>
@@ -385,19 +385,27 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="inputTitular">Titular de ADR</label>
-            <!-- <input type="text" v-model="nuevaSolicitud.titular_adr" class="form-control" id="inputTitular"> -->
+            <select @change="onChangeADR()" name="titular adr" class="form-control d-inline-block" v-model='adr'>
+              <option v-for="item in adrs" v-bind:value="item">
+                [[ item.titular ]]
+              </option>
+            </select>
           </div>
           <div class="form-group col-md-3">
             <label for="inputLocalizacion">Localización (ADR)</label>
-            <input type="text" v-model="nuevaSolicitud.localizacion_adr" class="form-control" id="inputLocalizacion">
+            <input type="text" v-model="adr.localizacion" class="form-control" id="inputLocalizacion">
           </div>
           <div class="form-group col-md-3">
             <label for="inputDomicilioAdr">Domicilio (ADR)</label>
-            <input type="text" v-model="nuevaSolicitud.domicilio_adr" class="form-control" id="inputDomicilioAdr">
+            <input type="text" v-model="adr.domicilio" class="form-control" id="inputDomicilioAdr">
           </div>
           <div class="form-group col-md-3">
             <label for="inputAlr">ALR (Solicitante)</label>
-            <input type="text" v-model="nuevaSolicitud.alr" class="form-control" id="inputAlr">
+            <select name="alr solicitante" class="form-control d-inline-block" v-model='nuevaSolicitud.alr'>
+              <option v-for="item in adr.alr" v-bind:value="item.id">
+                [[ item.nombre ]]
+              </option>
+            </select>
           </div>
         </div>
 
@@ -451,10 +459,12 @@ var app = new Vue({
   delimiters: ['[[', ']]'],
   el: '#create',
   data: {
+    adr: '',
     maxRfc: 12,
     maxRfcMancomunado: 12,
     csrf_token: token,
     clientes: '',
+    adrs: '',
     estados: '',
     municipios: '',
     nuevaSolicitud: {
@@ -491,7 +501,7 @@ var app = new Vue({
       municipio: '',
       localidad: '',
       localizado: '',
-      // titular_adr: '',
+      titular_adr: '',
       localizacion_adr: '',
       domicilio_adr: '',
       alr: '',
@@ -502,6 +512,7 @@ var app = new Vue({
   mounted: function() {
     this.getClientes();
     this.getEstados();
+    this.getADRs();
   },
   methods: {
     isActive (menuItem) {
@@ -514,6 +525,15 @@ var app = new Vue({
       axios.get('/api/cliente/')
         .then((response) => {
           this.clientes = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    getADRs: function() {
+      axios.get('/api/adr/')
+        .then((response) => {
+          this.adrs = response.data;
         })
         .catch((err) => {
           console.log(err);
@@ -540,6 +560,9 @@ var app = new Vue({
     onChangeEstado: function(event) {
       this.getMunicipios(event.target.value);
       this.nuevaSolicitud.municipio = '';
+    },
+    onChangeADR: function() {
+      this.nuevaSolicitud.titular_adr = this.adr.id;
     },
     onChangePersona: function(event) {
       var tipoPersona = event.target.value;

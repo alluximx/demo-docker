@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cliente, Avaluo, DatosCliente, Mancomunado, Estado, Municipio
+from .models import Cliente, Avaluo, DatosCliente, Mancomunado, Estado, Municipio, ADR, ALR
 
 
 class ClienteSerializer(serializers.ModelSerializer):
@@ -30,6 +30,20 @@ class MancomunadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mancomunado
         fields = '__all__'
+
+
+class ALRSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ALR
+        fields = '__all__'
+
+
+class ADRSerializer(serializers.ModelSerializer):
+    alr = ALRSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ADR
+        fields = ('id', 'nombre', 'titular', 'localizacion', 'domicilio', 'alr')
 
 
 class AvaluoSerializer(serializers.ModelSerializer):
