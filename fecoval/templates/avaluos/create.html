@@ -99,6 +99,7 @@
                 class="form-control d-inline-block"
                 v-validate="'required'"
                 v-model="nuevaSolicitud.cliente">
+                <option :value="null">--</option>
                 <option v-for="item in clientes" v-bind:value="item.id">
                   [[ item.cliente ]]
                 </option>
@@ -365,6 +366,7 @@
           <div class="form-group col-md-3">
             <label class="d-inline-block" for="estadoSelect">Estado</label>
             <select @change="onChangeEstado($event)" name="estadoSelect" class="form-control d-inline-block" v-model="nuevaSolicitud.estado">
+              <option :value="null">--</option>
               <option v-for="estado in estados" v-bind:value="estado.id">
                 [[ estado.nombre ]]
               </option>
@@ -373,6 +375,7 @@
           <div class="form-group col-md-3">
             <label class="d-inline-block" for="municipioSelect">Municipio</label>
             <select name="municipioSelect" class="form-control inline-block" v-model="nuevaSolicitud.municipio">
+              <option :value="null">--</option>
               <option v-for="municipio in municipios" v-bind:value="municipio.id">
                 [[ municipio.nombre ]]
               </option>
@@ -385,6 +388,7 @@
           <div class="form-group col-md-3">
             <label for="localizadoSelect">Inmueble Localizado</label>
             <select name="localizadoSelect" class="form-control" v-model="nuevaSolicitud.localizado">
+              <option :value="null">--</option>
               <option value="Si">Si</option>
               <option value="No">No</option>
             </select>
@@ -394,6 +398,7 @@
           <div class="form-group col-md-3">
             <label for="inputTitular">Titular de ADR</label>
             <select @change="onChangeADR()" name="titular adr" class="form-control d-inline-block" v-model='adr'>
+              <option :value="null">--</option>
               <option v-for="item in adrs" v-bind:value="item">
                 [[ item.titular ]]
               </option>
@@ -401,16 +406,17 @@
           </div>
           <div class="form-group col-md-3">
             <label for="inputLocalizacion">Localización (ADR)</label>
-            <input type="text" v-model="adr.localizacion" class="form-control" id="inputLocalizacion">
+            <input type="text" v-model="adr && adr.localizacion" class="form-control" id="inputLocalizacion">
           </div>
           <div class="form-group col-md-3">
             <label for="inputDomicilioAdr">Domicilio (ADR)</label>
-            <input type="text" v-model="adr.domicilio" class="form-control" id="inputDomicilioAdr">
+            <input type="text" v-model="adr && adr.domicilio" class="form-control" id="inputDomicilioAdr">
           </div>
           <div class="form-group col-md-3">
             <label for="inputAlr">ALR (Solicitante)</label>
             <select name="alr solicitante" class="form-control d-inline-block" v-model='nuevaSolicitud.alr'>
-              <option v-for="item in adr.alr" v-bind:value="item.id">
+              <option :value="null">--</option>
+              <option v-for="item in adr?.alr" v-bind:value="item.id">
                 [[ item.nombre ]]
               </option>
             </select>
@@ -566,14 +572,22 @@ var app = new Vue({
         });
     },
     onChangeEstado: function(event) {
-      this.getMunicipios(event.target.value);
+      let estadoValue = event.target.value;
+      if (estadoValue !== '') {
+        this.getMunicipios(estadoValue);
+      }
       this.nuevaSolicitud.municipio = '';
     },
     onChangeADR: function() {
-      this.nuevaSolicitud.titular_adr = this.adr.id;
+      if (this.adr) {
+        this.nuevaSolicitud.titular_adr = this.adr.id;
+      } else {
+        this.nuevaSolicitud.titular_adr = undefined;
+        this.nuevaSolicitud.alr = undefined;
+      }
     },
     onChangePersona: function(event) {
-      var tipoPersona = event.target.value;
+      let tipoPersona = event.target.value;
       this.nuevaSolicitud.datos_cliente.rfc = '';
       if (tipoPersona === 'F') {
         this.maxRfc = 13;
