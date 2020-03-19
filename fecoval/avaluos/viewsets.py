@@ -20,7 +20,7 @@ class ADRViewSet(viewsets.ReadOnlyModelViewSet):
 
 class AvaluoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Avaluo.objects.all()
+    queryset = Avaluo.objects.all().order_by('-id')
     serializer_class = AvaluoSerializer
 
 

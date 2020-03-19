@@ -4,11 +4,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
-from fecoval.avaluos.views import avaluos_list
+from fecoval.avaluos.views import AvaluoList
 from .routers import router
 
 urlpatterns = [
-    path("", avaluos_list, name="home"),
+    path("", AvaluoList.as_view(), name="home"),
     path(
         "home/", TemplateView.as_view(template_name="pages/home.html"), name="home"
     ),

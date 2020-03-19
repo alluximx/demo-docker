@@ -1,9 +1,48 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-<!-- <div class="row"> -->
+<div id="list">
   <h2>Lista de avalúos registrados</h2>
-<!-- </div> -->
+  <br>
+  <ul>
+    <li v-for="avaluo in avaluos">
+      [[ avaluo.id ]] - [[ avaluo.cliente.cliente ]]
+    </li>
+  </ul>
 
-{% endblock %}
+</div>
+
+{% endblock content %}
+
+{% block javascript %}
+{{ block.super }}
+
+<script>
+var app = new Vue({
+  delimiters: ['[[', ']]'],
+  el: '#list',
+  data: {
+    avaluos: ''
+  },
+  mounted: function() {
+    this.getAvaluos();
+  },
+  methods: {
+    getAvaluos: function() {
+      axios.get('/api/avaluo/')
+        .then((response) => {
+          this.avaluos = response.data;
+          // console.log(this.avaluos);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+  }
+})
+
+</script>
+
+{% endblock javascript %}

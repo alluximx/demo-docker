@@ -3,6 +3,6 @@ from . import views
 
 app_name = "fecoval"
 urlpatterns = [
-    # path("avaluos/", views.AvaluoList.as_view(), name="list"),
-    path("create/", views.avaluos_create, name="create"),
+    path("", views.AvaluoList.as_view(), name="list"),
+    path("create/", views.AvaluoCreate.as_view(), name="create"),
 ]
