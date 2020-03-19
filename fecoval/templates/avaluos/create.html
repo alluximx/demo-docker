@@ -98,7 +98,7 @@
                 name="institución o cliente"
                 class="form-control d-inline-block"
                 v-validate="'required'"
-                v-model="nuevaSolicitud.cliente">
+                v-model="nuevaSolicitud.cliente_id">
                 <option :value="null">--</option>
                 <option v-for="item in clientes" v-bind:value="item.id">
                   [[ item.cliente ]]
@@ -463,7 +463,7 @@
   </div>
 </div>
 
-{% endblock %}
+{% endblock content %}
 {% block javascript %}
 {{ block.super }}
 <script>
@@ -483,6 +483,7 @@ var app = new Vue({
     municipios: '',
     nuevaSolicitud: {
       cliente: '',
+      cliente_id: '',
       datos_cliente: {
         persona: 'M',
         nombre: '',

@@ -47,7 +47,8 @@ class ADRSerializer(serializers.ModelSerializer):
 
 
 class AvaluoSerializer(serializers.ModelSerializer):
-    cliente = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all())
+    cliente_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Cliente.objects.all(), source='cliente')
+    cliente = ClienteSerializer(read_only=True)
     datos_cliente = DatosClienteSerializer()
     mancomunado = MancomunadoSerializer()
     fecha_asignacion = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
@@ -56,8 +57,7 @@ class AvaluoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Avaluo
-        fields = '__all__'
-        # fields = ['cliente', 'datos_cliente', 'mancomunado']
+        exclude = ()
 
     def create(self, validated_data):
         datos_cliente_data = validated_data.pop('datos_cliente', None)
