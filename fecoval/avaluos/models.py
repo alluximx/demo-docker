@@ -1,6 +1,14 @@
 from django.db import models
 
 
+class TimeStampedModel(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
 class Cliente(models.Model):
     nombre = models.CharField(null=False, max_length=255)
 
@@ -61,7 +69,7 @@ class ALR(models.Model):
         return self.nombre
 
 
-class Avaluo(models.Model):
+class Avaluo(TimeStampedModel):
     LOCALIZADO_CHOICES = (
         ('Si', 'Si'),
         ('No', 'No'),
