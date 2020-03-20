@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Cliente, Avaluo, Estado, Municipio, ADR
-from .serializers import ClienteSerializer, AvaluoSerializer, EstadoSerializer, MunicipioSerializer, ADRSerializer
+from .models import Cliente, Avaluo, Estado, Municipio, ADR, Bien
+from .serializers import ClienteSerializer, AvaluoSerializer, EstadoSerializer, MunicipioSerializer, ADRSerializer, BienSerializer, PropositoSerializer, ServicioSerializer, InmuebleSerializer
 
 
 class ClienteViewSet(viewsets.ReadOnlyModelViewSet):
@@ -35,3 +35,9 @@ class EstadoViewSet(viewsets.ReadOnlyModelViewSet):
         municipios = Municipio.objects.filter(estado=estado).order_by('nombre')
         municipios_json = MunicipioSerializer(municipios, many=True)
         return Response(municipios_json.data)
+
+
+class BienViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Bien.objects.all().order_by('id')
+    serializer_class = BienSerializer

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Cliente, Avaluo, DatosCliente, Mancomunado, Estado, Municipio, ADR, ALR
+from .models import Cliente, Avaluo, DatosCliente, Mancomunado, Estado, Municipio, \
+    ADR, ALR, Bien, Proposito, Servicio, Inmueble
 
 
 class ClienteSerializer(serializers.ModelSerializer):
@@ -46,9 +47,35 @@ class ADRSerializer(serializers.ModelSerializer):
         fields = ('id', 'nombre', 'titular', 'localizacion', 'domicilio', 'alr')
 
 
+class BienSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bien
+        fields = '__all__'
+
+
+class PropositoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Proposito
+        fields = '__all__'
+
+
+class ServicioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Servicio
+        fields = '__all__'
+
+
+class InmuebleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inmueble
+        fields = '__all__'
+
+
 class AvaluoSerializer(serializers.ModelSerializer):
     cliente_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Cliente.objects.all(), source='cliente')
     cliente = ClienteSerializer(read_only=True)
+    bien_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Bien.objects.all(), source='tipo_bien')
+    tipo_bien = BienSerializer(read_only=True)
     datos_cliente = DatosClienteSerializer()
     mancomunado = MancomunadoSerializer()
     fecha_asignacion = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)

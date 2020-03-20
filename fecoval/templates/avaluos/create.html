@@ -76,11 +76,11 @@
     </li>
   </ul>
   <br>
+<form v-on:submit.prevent="addSolicitud()">
   <div class="tab-content" id="myTabContent">
     <!-- Solicitud tab -->
     <div class="tab-pane fade" :class="{ 'active show': isActive('solicitud') }" id="solicitud">
       <label><strong>Institución o cliente</strong></label>
-      <form v-on:submit.prevent="addSolicitud()">
         <div class="form-row">
           <div class="form-group col-md-4">
             <label class="d-inline-block" for="institución o cliente">Cliente</label>
@@ -419,7 +419,6 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Aceptar</button>
-      </form>
     </div>
     <!-- End solicitud tab -->
     <!-- Start tipo tab -->
@@ -440,7 +439,23 @@
           <input type="text" id="inputTipoFolio" class="form-control" readonly>
         </div>
         <div class="form-group col-md-4">
+          <label class="d-inline-block" for="institución o cliente">Tipo de bien a valuar</label>
+          <select
+            name="tipo de bien"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.tipo_bien">
+            <option :value="null">--</option>
+            <option v-for="item in bienes" v-bind:value="item">
+              [[ item.nombre ]]
+            </option>
+          </select>
         </div>
+
+        <!-- <div class="alert alert-secondary"> -->
+        <!-- <pre> -->
+        <!--   [[ bienes ]] -->
+        <!-- </pre> -->
+        <!-- </div> -->
       </div>
     </div>
     <!-- end tipo tab -->
@@ -475,6 +490,7 @@
       Timeline
     </div>
   </div>
+</form>
 </div>
 
 {% endblock content %}
@@ -492,6 +508,7 @@ var app = new Vue({
     maxRfcMancomunado: 12,
     csrf_token: token,
     clientes: '',
+    bienes: '',
     adrs: '',
     estados: '',
     municipios: '',
@@ -534,6 +551,8 @@ var app = new Vue({
       localizacion_adr: '',
       domicilio_adr: '',
       alr: '',
+      tipo_bien: '',
+      bien_id: '',
     },
     activeItem: 'tipo',
     submitted: false,
@@ -542,6 +561,7 @@ var app = new Vue({
     this.getClientes();
     this.getEstados();
     this.getADRs();
+    this.getBienes();
   },
   methods: {
     isActive (menuItem) {
@@ -586,6 +606,15 @@ var app = new Vue({
           console.log(err);
         });
     },
+    getBienes: function() {
+      axios.get('/api/bien/')
+        .then((response) => {
+          this.bienes = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
     onChangeEstado: function(event) {
       let estadoValue = event.target.value;
       if (estadoValue !== '') {
@@ -622,6 +651,7 @@ var app = new Vue({
         this.nuevaSolicitud.datos_cliente.rfc = this.nuevaSolicitud.datos_cliente.rfc.toUpperCase();
         this.nuevaSolicitud.mancomunado.rfc = this.nuevaSolicitud.mancomunado.rfc.toUpperCase();
         this.nuevaSolicitud.cliente_id = this.nuevaSolicitud.cliente.id;
+        this.nuevaSolicitud.bien_id = this.nuevaSolicitud.bien.id;
         axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
           'X-CSRFToken': this.csrf_token,
           'Content-Type': 'application/json'
