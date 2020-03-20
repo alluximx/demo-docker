@@ -422,6 +422,7 @@
       </form>
     </div>
     <!-- End solicitud tab -->
+    <!-- Start tipo tab -->
     <div class="tab-pane fade" :class="{ 'active show': isActive('tipo') }" id="tipo">
       <label><strong>Información del cliente</strong></label>
       <div class="form-row">
@@ -434,8 +435,15 @@
             id="tipoNombreCliente"
             readonly>
         </div>
+        <div class="form-group col-md-4">
+          <label for="inputTipoFolio">Folio del avaluo</label>
+          <input type="text" id="inputTipoFolio" class="form-control" readonly>
+        </div>
+        <div class="form-group col-md-4">
+        </div>
       </div>
     </div>
+    <!-- end tipo tab -->
     <div class="tab-pane fade" :class="{ 'active show': isActive('asignacion') }" id="asignacion">
       Asignación de colegio y aceptación
     </div>

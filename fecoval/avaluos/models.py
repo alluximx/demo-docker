@@ -69,6 +69,13 @@ class ALR(models.Model):
         return self.nombre
 
 
+class Bien(models.Model):
+    nombre = models.CharField(null=False, max_length=255)
+
+    def __str__(self):
+        return self.nombre
+
+
 class Avaluo(TimeStampedModel):
     LOCALIZADO_CHOICES = (
         ('Si', 'Si'),
@@ -95,6 +102,8 @@ class Avaluo(TimeStampedModel):
     localizacion_adr = models.CharField(blank=True, null=True, max_length=255)
     domicilio_adr = models.CharField(blank=True, null=True, max_length=255)
     alr = models.CharField(blank=True, null=True, max_length=255)
+    folio = models.CharField(blank=True, null=True, max_length=255)
+    tipo_bien = models.ForeignKey(Bien, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.pk)
