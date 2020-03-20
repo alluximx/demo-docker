@@ -1,17 +1,26 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
+{{ block.super }}
+
+<style type="text/css">
+  .VueTables__search-field {
+      display: flex;
+  }
+  .VueTables__limit-field {
+      display: flex;
+  }
+</style>
+{% endblock css %}
+
 {% block content %}
 
 <div id="list">
   <h2>Lista de avalúos registrados</h2>
   <br>
-  <ul>
-    <li v-for="avaluo in avaluos">
-      [[ avaluo.id ]] - [[ avaluo.cliente.cliente ]]
-    </li>
-  </ul>
-
+  <v-client-table v-model="avaluos" :columns="columns" :options="options"/>
+  </v-client-table>
 </div>
 
 {% endblock content %}
@@ -20,11 +29,21 @@
 {{ block.super }}
 
 <script>
+Vue.use(VueTables.ClientTable, {}, false, 'bootstrap4');
 var app = new Vue({
   delimiters: ['[[', ']]'],
   el: '#list',
   data: {
-    avaluos: ''
+    columns: ['id', 'cliente.cliente'],
+    options: {
+      headings: {
+        theme: 'bootstrap4',
+        template: 'default',
+        id: 'Id',
+        'cliente.cliente' : 'Cliente',
+      },
+    },
+    avaluos: []
   },
   mounted: function() {
     this.getAvaluos();
@@ -34,7 +53,6 @@ var app = new Vue({
       axios.get('/api/avaluo/')
         .then((response) => {
           this.avaluos = response.data;
-          // console.log(this.avaluos);
         })
         .catch((err) => {
           console.log(err);
