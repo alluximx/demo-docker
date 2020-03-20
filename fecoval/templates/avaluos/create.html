@@ -301,7 +301,7 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputFolio">Folio institución que originó el servicio</label>
-            <input type="text" v-model="nuevaSolicitud.folio" class="form-control" id="inputFolio">
+            <input type="text" v-model="nuevaSolicitud.folio_institucion" class="form-control" id="inputFolio">
           </div>
           <div class="form-group col-md-4">
             <label for="inputFechaAsignacion">Fecha de asignación</label>
@@ -506,7 +506,7 @@ var app = new Vue({
         telefono: '',
         celular: ''
       },
-      folio: '',
+      folio_institucion: '',
       fecha_asignacion: undefined,
       fecha_compromiso: undefined,
       fecha_solicitud_correo: undefined,

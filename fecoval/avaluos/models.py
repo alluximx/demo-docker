@@ -75,7 +75,7 @@ class Avaluo(TimeStampedModel):
         ('No', 'No'),
     )
     cliente = models.ForeignKey(Cliente, null=True, on_delete=models.CASCADE)
-    folio = models.CharField(blank=True, null=True, max_length=255)
+    folio_institucion = models.CharField(blank=True, null=True, max_length=255)
     fecha_asignacion = models.DateField(blank=True, null=True)
     fecha_compromiso = models.DateField(blank=True, null=True)
     fecha_solicitud_correo = models.DateField(blank=True, null=True)
