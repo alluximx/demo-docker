@@ -101,7 +101,7 @@
                 v-model="nuevaSolicitud.cliente_id">
                 <option :value="null">--</option>
                 <option v-for="item in clientes" v-bind:value="item.id">
-                  [[ item.cliente ]]
+                  [[ item.nombre ]]
                 </option>
               </select>
             </div>

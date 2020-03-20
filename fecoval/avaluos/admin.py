@@ -3,7 +3,7 @@ from .models import Cliente, Avaluo, DatosCliente, Mancomunado, ADR, ALR
 
 
 class ClienteAdmin(admin.ModelAdmin):
-    fields = ['cliente', ]
+    fields = ['nombre', ]
 
 
 class AvaluoAdmin(admin.ModelAdmin):
