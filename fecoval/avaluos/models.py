@@ -72,6 +72,9 @@ class ALR(models.Model):
 class Bien(models.Model):
     nombre = models.CharField(null=False, max_length=255)
 
+    class Meta:
+        verbose_name_plural = "Tipos de Bienes"
+
     def __str__(self):
         return self.nombre
 

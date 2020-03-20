@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cliente, Avaluo, DatosCliente, Mancomunado, ADR, ALR
+from .models import Cliente, Avaluo, DatosCliente, Mancomunado, ADR, ALR, Bien
 
 
 class ClienteAdmin(admin.ModelAdmin):
@@ -17,3 +17,4 @@ admin.site.register(DatosCliente)
 admin.site.register(Mancomunado)
 admin.site.register(ADR)
 admin.site.register(ALR)
+admin.site.register(Bien)
