@@ -89,6 +89,16 @@ class Proposito(models.Model):
         return self.nombre
 
 
+class Servicio(models.Model):
+    nombre = models.CharField(null=False, max_length=255)
+
+    class Meta:
+        verbose_name_plural = "Tipos de Servicios"
+
+    def __str__(self):
+        return self.nombre
+
+
 class Avaluo(TimeStampedModel):
     LOCALIZADO_CHOICES = (
         ('Si', 'Si'),
@@ -118,6 +128,7 @@ class Avaluo(TimeStampedModel):
     folio = models.CharField(blank=True, null=True, max_length=255)
     tipo_bien = models.ForeignKey(Bien, blank=True, null=True, on_delete=models.CASCADE)
     proposito = models.ForeignKey(Proposito, blank=True, null=True, on_delete=models.CASCADE)
+    tipo_servicio = models.ForeignKey(Servicio, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.pk)
