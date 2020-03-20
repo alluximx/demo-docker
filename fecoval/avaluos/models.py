@@ -140,6 +140,8 @@ class Avaluo(TimeStampedModel):
     proposito = models.ForeignKey(Proposito, blank=True, null=True, on_delete=models.CASCADE)
     tipo_servicio = models.ForeignKey(Servicio, blank=True, null=True, on_delete=models.CASCADE)
     tipo_inmueble = models.ForeignKey(Inmueble, blank=True, null=True, on_delete=models.CASCADE)
+    descripcion_bien = models.CharField(blank=True, null=True, max_length=255)
+    domicilio_bien = models.CharField(blank=True, null=True, max_length=255)
 
     def __str__(self):
         return str(self.pk)
