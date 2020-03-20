@@ -78,12 +78,7 @@
   <br>
   <div class="tab-content" id="myTabContent">
     <!-- Solicitud tab -->
-    <div class="tab-pane fade"
-      :class="{ 'active show': isActive('solicitud') }"
-      id="solicitud"
-      role="tabpanel"
-      aria-labelledby="solicitud-tab">
-
+    <div class="tab-pane fade" :class="{ 'active show': isActive('solicitud') }" id="solicitud">
       <label><strong>Institución o cliente</strong></label>
       <form v-on:submit.prevent="addSolicitud()">
         <div class="form-row">
@@ -98,9 +93,9 @@
                 name="institución o cliente"
                 class="form-control d-inline-block"
                 v-validate="'required'"
-                v-model="nuevaSolicitud.cliente_id">
+                v-model="nuevaSolicitud.cliente">
                 <option :value="null">--</option>
-                <option v-for="item in clientes" v-bind:value="item.id">
+                <option v-for="item in clientes" v-bind:value="item">
                   [[ item.nombre ]]
                 </option>
               </select>
@@ -428,7 +423,18 @@
     </div>
     <!-- End solicitud tab -->
     <div class="tab-pane fade" :class="{ 'active show': isActive('tipo') }" id="tipo">
-      Tipo y complejidad del avalúo
+      <label><strong>Información del cliente</strong></label>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="inputPaternoCliente">Cliente/Colegio</label>
+          <input
+            type="text"
+            v-model="nuevaSolicitud.cliente && nuevaSolicitud.cliente.nombre"
+            class="form-control"
+            id="tipoNombreCliente"
+            readonly>
+        </div>
+      </div>
     </div>
     <div class="tab-pane fade" :class="{ 'active show': isActive('asignacion') }" id="asignacion">
       Asignación de colegio y aceptación
@@ -521,7 +527,7 @@ var app = new Vue({
       domicilio_adr: '',
       alr: '',
     },
-    activeItem: 'solicitud',
+    activeItem: 'tipo',
     submitted: false,
   },
   mounted: function() {
@@ -607,6 +613,7 @@ var app = new Vue({
         };
         this.nuevaSolicitud.datos_cliente.rfc = this.nuevaSolicitud.datos_cliente.rfc.toUpperCase();
         this.nuevaSolicitud.mancomunado.rfc = this.nuevaSolicitud.mancomunado.rfc.toUpperCase();
+        this.nuevaSolicitud.cliente_id = this.nuevaSolicitud.cliente.id;
         axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
           'X-CSRFToken': this.csrf_token,
           'Content-Type': 'application/json'
