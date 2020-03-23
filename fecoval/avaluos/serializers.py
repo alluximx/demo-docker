@@ -73,22 +73,35 @@ class InmuebleSerializer(serializers.ModelSerializer):
 
 class AvaluoSerializer(serializers.ModelSerializer):
     # Cliente
-    cliente_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Cliente.objects.all(), source='cliente')
+    cliente_id = serializers.PrimaryKeyRelatedField(write_only=True,
+                                                    queryset=Cliente.objects.all(),
+                                                    source='cliente')
     cliente = ClienteSerializer(read_only=True)
 
     # Bien
-    bien_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True, queryset=Bien.objects.all(), source='tipo_bien')
+    bien_id = serializers.PrimaryKeyRelatedField(required=False,
+                                                 write_only=True,
+                                                 queryset=Bien.objects.all(),
+                                                 source='tipo_bien')
     tipo_bien = BienSerializer(read_only=True)
 
     # Proposito
-    proposito_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Proposito.objects.all(), source='proposito')
+    proposito_id = serializers.PrimaryKeyRelatedField(write_only=True,
+                                                      queryset=Proposito.objects.all(),
+                                                      source='proposito')
     proposito = PropositoSerializer(read_only=True)
 
     datos_cliente = DatosClienteSerializer()
     mancomunado = MancomunadoSerializer()
-    fecha_asignacion = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
-    fecha_compromiso = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
-    fecha_solicitud_correo = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
+    fecha_asignacion = serializers.DateField(format="%d-%m-%Y",
+                                             input_formats=['%d-%m-%Y', 'iso-8601'],
+                                             required=False)
+    fecha_compromiso = serializers.DateField(format="%d-%m-%Y",
+                                             input_formats=['%d-%m-%Y', 'iso-8601'],
+                                             required=False)
+    fecha_solicitud_correo = serializers.DateField(format="%d-%m-%Y",
+                                                   input_formats=['%d-%m-%Y', 'iso-8601'],
+                                                   required=False)
 
     class Meta:
         model = Avaluo
