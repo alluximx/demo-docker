@@ -439,7 +439,7 @@
           <input type="text" id="inputTipoFolio" class="form-control" readonly>
         </div>
         <div class="form-group col-md-4">
-          <label class="d-inline-block" for="institución o cliente">Tipo de bien a valuar</label>
+          <label class="d-inline-block" for="tipo de bien">Tipo de bien a valuar</label>
           <select
             name="tipo de bien"
             class="form-control d-inline-block"
@@ -450,13 +450,28 @@
             </option>
           </select>
         </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="proposito">Propósito</label>
+          <select
+            name="proposito"
+            class="form-control d-inlin-block"
+            v-model="nuevaSolicitud.proposito">
+            <option :value="null">---</option>
+            <option v-for="item in propositos" v-bind:value="item">
+              [[ item.nombre ]]
+            </option>
+          </select>
+        </div>
+      </div>
 
         <!-- <div class="alert alert-secondary"> -->
         <!-- <pre> -->
         <!--   [[ bienes ]] -->
         <!-- </pre> -->
         <!-- </div> -->
-      </div>
     </div>
     <!-- end tipo tab -->
     <div class="tab-pane fade" :class="{ 'active show': isActive('asignacion') }" id="asignacion">
@@ -509,6 +524,7 @@ var app = new Vue({
     csrf_token: token,
     clientes: '',
     bienes: '',
+    propositos: '',
     adrs: '',
     estados: '',
     municipios: '',
@@ -553,6 +569,8 @@ var app = new Vue({
       alr: '',
       tipo_bien: '',
       bien_id: '',
+      proposito: '',
+      proposito_id: '',
     },
     activeItem: 'tipo',
     submitted: false,
@@ -562,6 +580,7 @@ var app = new Vue({
     this.getEstados();
     this.getADRs();
     this.getBienes();
+    this.getPropositos();
   },
   methods: {
     isActive (menuItem) {
@@ -615,6 +634,15 @@ var app = new Vue({
           console.log(err);
         })
     },
+    getPropositos: function() {
+      axios.get('/api/proposito/')
+        .then((response) => {
+          this.propositos = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
     onChangeEstado: function(event) {
       let estadoValue = event.target.value;
       if (estadoValue !== '') {
@@ -651,7 +679,8 @@ var app = new Vue({
         this.nuevaSolicitud.datos_cliente.rfc = this.nuevaSolicitud.datos_cliente.rfc.toUpperCase();
         this.nuevaSolicitud.mancomunado.rfc = this.nuevaSolicitud.mancomunado.rfc.toUpperCase();
         this.nuevaSolicitud.cliente_id = this.nuevaSolicitud.cliente.id;
-        this.nuevaSolicitud.bien_id = this.nuevaSolicitud.bien.id;
+        this.nuevaSolicitud.bien_id = this.nuevaSolicitud.tipo_bien.id;
+        this.nuevaSolicitud.proposito_id = this.nuevaSolicitud.proposito.id;
         axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
           'X-CSRFToken': this.csrf_token,
           'Content-Type': 'application/json'

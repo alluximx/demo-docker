@@ -72,10 +72,18 @@ class InmuebleSerializer(serializers.ModelSerializer):
 
 
 class AvaluoSerializer(serializers.ModelSerializer):
+    # Cliente
     cliente_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Cliente.objects.all(), source='cliente')
     cliente = ClienteSerializer(read_only=True)
-    bien_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Bien.objects.all(), source='tipo_bien')
+
+    # Bien
+    bien_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True, queryset=Bien.objects.all(), source='tipo_bien')
     tipo_bien = BienSerializer(read_only=True)
+
+    # Proposito
+    proposito_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Proposito.objects.all(), source='proposito')
+    proposito = PropositoSerializer(read_only=True)
+
     datos_cliente = DatosClienteSerializer()
     mancomunado = MancomunadoSerializer()
     fecha_asignacion = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
@@ -84,6 +92,7 @@ class AvaluoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Avaluo
+        # Serialize all fields
         exclude = ()
 
     def create(self, validated_data):
