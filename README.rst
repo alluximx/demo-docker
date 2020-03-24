@@ -43,14 +43,14 @@ By default it reads credentials from .envs/.local/, to switch to custom .env, ad
 
 Adding apps
 ^^^^^^^^^^^
-::
-  $ docker-compose -f local.yml run --rm django python manage.py startapp <name-of-the-app>
-  $ sudo chown -R user:user <name-of-the-app>
-  1 - Create the <name-of-the-app> app with python manage.py startapp
-  2 - Move <name-of-the-app> directory to <project_slug> directory
-  3 - Edit <project_slug>/<name-of-the-app>/apps.py and
-  change name = "<name-of-the-app>" to name = "<project_slug>.<name-of-the-app>"
-  4 - add "<project_slug>.<name-of-the-app>.apps.<NameOfTheAppConfigClass>", on your LOCAL_APPS on config/settings/base.py
+.. code-block:: bash
+
+    $ docker-compose -f local.yml run --rm django python manage.py startapp <name-of-the-app>
+    $ sudo chown -R user:user <name-of-the-app>
+    # Create the <name-of-the-app> app with python manage.py startapp
+    # Move <name-of-the-app> directory to <project_slug> directory
+    # Edit <project_slug>/<name-of-the-app>/apps.py and change name = "<name-of-the-app>" to name = "<project_slug>.<name-of-the-app>"
+    # Add "<project_slug>.<name-of-the-app>.apps.<NameOfTheAppConfigClass>", on your LOCAL_APPS on config/settings/base.py
 
 Settings
 --------
