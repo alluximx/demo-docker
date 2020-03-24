@@ -121,4 +121,6 @@ class AvaluoSerializer(serializers.ModelSerializer):
             mancomunado = Mancomunado.objects.create(avaluo=avaluo, **mancomunado_data)
             validated_data['mancomunado'] = mancomunado
 
+        # Pass created instance to drf
+        # return super().create(validated_data)
         return validated_data
