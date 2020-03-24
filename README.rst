@@ -41,17 +41,6 @@ By default it reads credentials from .envs/.local/, to switch to custom .env, ad
   export DJANGO_READ_DOT_ENV_FILE=True
 
 
-Adding apps
-^^^^^^^^^^^
-.. code-block:: bash
-
-    $ docker-compose -f local.yml run --rm django python manage.py startapp <name-of-the-app>
-    $ sudo chown -R user:user <name-of-the-app>
-    # Create the <name-of-the-app> app with python manage.py startapp
-    # Move <name-of-the-app> directory to <project_slug> directory
-    # Edit <project_slug>/<name-of-the-app>/apps.py and change name = "<name-of-the-app>" to name = "<project_slug>.<name-of-the-app>"
-    # Add "<project_slug>.<name-of-the-app>.apps.<NameOfTheAppConfigClass>", on your LOCAL_APPS on config/settings/base.py
-
 Settings
 --------
 
@@ -72,6 +61,17 @@ Setting Up Your Users
     $ docker-compose -f local.yml run --rm django python manage.py createsuperuser
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+
+Adding apps
+^^^^^^^^^^^
+.. code-block:: bash
+
+    $ docker-compose -f local.yml run --rm django python manage.py startapp <name-of-the-app>
+    $ sudo chown -R user:user <name-of-the-app>
+    # Create the <name-of-the-app> app with python manage.py startapp
+    # Move <name-of-the-app> directory to <project_slug> directory
+    # Edit <project_slug>/<name-of-the-app>/apps.py and change name = "<name-of-the-app>" to name = "<project_slug>.<name-of-the-app>"
+    # Add "<project_slug>.<name-of-the-app>.apps.<NameOfTheAppConfigClass>", on your LOCAL_APPS on config/settings/base.py
 
 Type checks
 ^^^^^^^^^^^
