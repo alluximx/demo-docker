@@ -10,6 +10,47 @@ Fecoval webapp
      :target: https://github.com/ambv/black
      :alt: Black code style
 
+Quickstart
+----------
+
+Build the stack
+^^^^^^^^^^^^^^^
+::
+
+  $ docker-compose -f local.yml build
+
+Run it
+^^^^^^
+::
+
+  $ docker-compose -f local.yml up
+
+Execute management commands
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+  $ docker-compose -f local.yml run --rm django python manage.py migrate
+
+
+Dot env
+^^^^^^^
+By default it reads credentials from .envs/.local/, to switch to custom .env, add to zshrc or bashrc:
+
+::
+
+  export DJANGO_READ_DOT_ENV_FILE=True
+
+
+Adding apps
+^^^^^^^^^^^
+::
+  $ docker-compose -f local.yml run --rm django python manage.py startapp <name-of-the-app>
+  $ sudo chown -R user:user <name-of-the-app>
+  1 - Create the <name-of-the-app> app with python manage.py startapp
+  2 - Move <name-of-the-app> directory to <project_slug> directory
+  3 - Edit <project_slug>/<name-of-the-app>/apps.py and
+  change name = "<name-of-the-app>" to name = "<project_slug>.<name-of-the-app>"
+  4 - add "<project_slug>.<name-of-the-app>.apps.<NameOfTheAppConfigClass>", on your LOCAL_APPS on config/settings/base.py
 
 Settings
 --------
@@ -28,7 +69,7 @@ Setting Up Your Users
 
 * To create an **superuser account**, use this command::
 
-    $ python manage.py createsuperuser
+    $ docker-compose -f local.yml run --rm django python manage.py createsuperuser
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
