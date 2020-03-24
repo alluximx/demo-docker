@@ -140,7 +140,6 @@ class Avaluo(TimeStampedModel):
     proposito = models.ForeignKey(Proposito, blank=True, null=True, on_delete=models.CASCADE)
     tipo_servicio = models.ForeignKey(Servicio, blank=True, null=True, on_delete=models.CASCADE)
     tipo_inmueble = models.ForeignKey(Inmueble, blank=True, null=True, on_delete=models.CASCADE)
-    descripcion_bien = models.CharField(blank=True, null=True, max_length=255)
     domicilio_bien = models.CharField(blank=True, null=True, max_length=255)
 
     def __str__(self):
@@ -169,3 +168,14 @@ class Mancomunado(models.Model):
     rfc = models.CharField(blank=True, null=True, max_length=255)
     telefono = models.CharField(blank=True, null=True, max_length=255)
     celular = models.CharField(blank=True, null=True, max_length=255)
+
+
+class DescripcionBien(models.Model):
+    descripcion = models.CharField(null=False, max_length=255)
+    avaluo = models.ForeignKey(Avaluo, null=True, on_delete=models.CASCADE, related_name="descripcion_bien")
+
+    class Meta:
+        verbose_name_plural = "Tipos de Bienes"
+
+    def __str__(self):
+        return self.nombre
