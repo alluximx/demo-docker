@@ -86,10 +86,18 @@ class AvaluoSerializer(serializers.ModelSerializer):
     tipo_bien = BienSerializer(read_only=True)
 
     # Proposito
-    proposito_id = serializers.PrimaryKeyRelatedField(write_only=True,
+    proposito_id = serializers.PrimaryKeyRelatedField(required=False,
+                                                      write_only=True,
                                                       queryset=Proposito.objects.all(),
                                                       source='proposito')
     proposito = PropositoSerializer(read_only=True)
+
+    # Servicio
+    tipo_servicio_id = serializers.PrimaryKeyRelatedField(required=False,
+                                                          write_only=True,
+                                                          queryset=Servicio.objects.all(),
+                                                          source='tipo_servicio')
+    tipo_servicio = ServicioSerializer(read_only=True)
 
     datos_cliente = DatosClienteSerializer()
     mancomunado = MancomunadoSerializer()

@@ -2,8 +2,9 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Cliente, Avaluo, Estado, Municipio, ADR, Bien, Proposito
-from .serializers import ClienteSerializer, AvaluoSerializer, EstadoSerializer, MunicipioSerializer, ADRSerializer, BienSerializer, PropositoSerializer, ServicioSerializer, InmuebleSerializer
+from .models import Cliente, Avaluo, Estado, Municipio, ADR, Bien, Proposito, Servicio
+from .serializers import ClienteSerializer, AvaluoSerializer, EstadoSerializer, MunicipioSerializer, \
+    ADRSerializer, BienSerializer, PropositoSerializer, ServicioSerializer, InmuebleSerializer
 
 
 class ClienteViewSet(viewsets.ReadOnlyModelViewSet):
@@ -47,3 +48,9 @@ class PropositoViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Proposito.objects.all()
     serializer_class = PropositoSerializer
+
+
+class ServicioViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Servicio.objects.all()
+    serializer_class = ServicioSerializer

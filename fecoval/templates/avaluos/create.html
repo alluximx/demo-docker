@@ -457,10 +457,23 @@
           <label for="proposito">Propósito</label>
           <select
             name="proposito"
-            class="form-control d-inlin-block"
+            class="form-control d-inline-block"
             v-model="nuevaSolicitud.proposito">
             <option :value="null">---</option>
             <option v-for="item in propositos" v-bind:value="item">
+              [[ item.nombre ]]
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="tipo de servicio">Tipo de Servicio</label>
+          <select
+            name="tipo de servicio"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.tipo_servicio">
+            <option :value="null">---</option>
+            <option v-for="item in servicios" v-bind:value="item">
               [[ item.nombre ]]
             </option>
           </select>
@@ -525,6 +538,7 @@ var app = new Vue({
     clientes: '',
     bienes: '',
     propositos: '',
+    servicios: '',
     adrs: '',
     estados: '',
     municipios: '',
@@ -571,6 +585,8 @@ var app = new Vue({
       bien_id: '',
       proposito: '',
       proposito_id: '',
+      tipo_servicio_id: '',
+      tipo_servicio: '',
     },
     activeItem: 'tipo',
     submitted: false,
@@ -581,6 +597,7 @@ var app = new Vue({
     this.getADRs();
     this.getBienes();
     this.getPropositos();
+    this.getServicios();
   },
   methods: {
     isActive (menuItem) {
@@ -643,6 +660,15 @@ var app = new Vue({
           console.log(err);
         })
     },
+    getServicios: function() {
+      axios.get('/api/servicio/')
+        .then((response) => {
+          this.servicios = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
     onChangeEstado: function(event) {
       let estadoValue = event.target.value;
       if (estadoValue !== '') {
@@ -681,6 +707,7 @@ var app = new Vue({
         this.nuevaSolicitud.cliente_id = this.nuevaSolicitud.cliente.id;
         this.nuevaSolicitud.bien_id = this.nuevaSolicitud.tipo_bien.id;
         this.nuevaSolicitud.proposito_id = this.nuevaSolicitud.proposito.id;
+        this.nuevaSolicitud.tipo_servicio_id = this.nuevaSolicitud.tipo_servicio.id;
         axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
           'X-CSRFToken': this.csrf_token,
           'Content-Type': 'application/json'

@@ -1,6 +1,6 @@
 from rest_framework import routers
 from fecoval.avaluos.viewsets import ClienteViewSet, AvaluoViewSet, EstadoViewSet, \
-    ADRViewSet, BienViewSet, PropositoViewSet
+    ADRViewSet, BienViewSet, PropositoViewSet, ServicioViewSet
 
 router = routers.DefaultRouter()
 
@@ -10,3 +10,4 @@ router.register(r'estado', EstadoViewSet)
 router.register(r'bien', BienViewSet)
 router.register(r'proposito', PropositoViewSet)
 router.register(r'adr', ADRViewSet)
+router.register(r'servicio', ServicioViewSet)
