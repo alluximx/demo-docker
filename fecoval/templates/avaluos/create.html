@@ -478,6 +478,18 @@
             </option>
           </select>
         </div>
+        <div class="form-group col-md-4">
+          <label for="tipo de inmueble">Tipo de inmueble</label>
+          <select
+            name="tipo de inmueble"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.tipo_inmueble">
+            <option :value="null">---</option>
+            <option v-for="item in inmuebles" v-bind:value="item">
+              [[ item.nombre ]]
+            </option>
+          </select>
+        </div>
       </div>
 
         <!-- <div class="alert alert-secondary"> -->
@@ -539,6 +551,7 @@ var app = new Vue({
     bienes: '',
     propositos: '',
     servicios: '',
+    inmuebles: '',
     adrs: '',
     estados: '',
     municipios: '',
@@ -587,6 +600,8 @@ var app = new Vue({
       proposito_id: '',
       tipo_servicio_id: '',
       tipo_servicio: '',
+      tipo_inmueble_id: '',
+      tipo_inmueble: '',
     },
     activeItem: 'tipo',
     submitted: false,
@@ -598,6 +613,7 @@ var app = new Vue({
     this.getBienes();
     this.getPropositos();
     this.getServicios();
+    this.getInmuebles();
   },
   methods: {
     isActive (menuItem) {
@@ -669,6 +685,15 @@ var app = new Vue({
           console.log(err);
         })
     },
+    getInmuebles: function() {
+      axios.get('/api/inmueble/')
+        .then((response) => {
+          this.inmuebles = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
     onChangeEstado: function(event) {
       let estadoValue = event.target.value;
       if (estadoValue !== '') {
@@ -708,6 +733,7 @@ var app = new Vue({
         this.nuevaSolicitud.bien_id = this.nuevaSolicitud.tipo_bien.id;
         this.nuevaSolicitud.proposito_id = this.nuevaSolicitud.proposito.id;
         this.nuevaSolicitud.tipo_servicio_id = this.nuevaSolicitud.tipo_servicio.id;
+        this.nuevaSolicitud.tipo_inmueble_id = this.nuevaSolicitud.tipo_inmueble.id;
         axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
           'X-CSRFToken': this.csrf_token,
           'Content-Type': 'application/json'

@@ -99,6 +99,13 @@ class AvaluoSerializer(serializers.ModelSerializer):
                                                           source='tipo_servicio')
     tipo_servicio = ServicioSerializer(read_only=True)
 
+    # Inmueble
+    tipo_inmueble_id = serializers.PrimaryKeyRelatedField(required=False,
+                                                          write_only=True,
+                                                          queryset=Inmueble.objects.all(),
+                                                          source='tipo_inmueble')
+    tipo_inmueble = InmuebleSerializer(read_only=True)
+
     datos_cliente = DatosClienteSerializer()
     mancomunado = MancomunadoSerializer()
     fecha_asignacion = serializers.DateField(format="%d-%m-%Y",
