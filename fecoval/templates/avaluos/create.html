@@ -478,11 +478,36 @@
             </option>
           </select>
         </div>
+
+        <div class="form-group col-md-4">
+          <label for="tipo de inmueble">Tipo de inmueble</label>
+          <select
+            name="tipo de inmueble"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.tipo_inmueble">
+            <option :value="null">---</option>
+            <option v-for="item in inmuebles" v-bind:value="item">
+              [[ item.nombre ]]
+            </option>
+          </select>
+        </div>
       </div>
 
+      <div class="form-row">
+        <div class="form-group col-md-6" v-for="(input,k) in nuevaSolicitud.descripcion_bienes" :key="k">
+            <label>Descripción del bien [[k+1]]</label>
+            <textarea v-model="input.descripcion" class="form-control" :id="'descripcion-bien-'+k" rows="3"></textarea>
+            <span>
+                <i class="fa fa-minus-circle" @click="remove(k)" v-show="k || ( !k && nuevaSolicitud.descripcion_bienes.length > 1)"></i>
+                <i class="fa fa-plus-circle" @click="add(k)" v-show="k == nuevaSolicitud.descripcion_bienes.length-1"></i>
+            </span>
+        </div>
+      </div>
+
+        <!-- <button type="submit" class="btn btn-primary">Aceptar</button> -->
         <!-- <div class="alert alert-secondary"> -->
         <!-- <pre> -->
-        <!--   [[ bienes ]] -->
+        <!--   [[ nuevaSolicitud.descripcion_bienes ]] -->
         <!-- </pre> -->
         <!-- </div> -->
     </div>
@@ -539,6 +564,7 @@ var app = new Vue({
     bienes: '',
     propositos: '',
     servicios: '',
+    inmuebles: '',
     adrs: '',
     estados: '',
     municipios: '',
@@ -587,6 +613,13 @@ var app = new Vue({
       proposito_id: '',
       tipo_servicio_id: '',
       tipo_servicio: '',
+      tipo_inmueble_id: '',
+      tipo_inmueble: '',
+      descripcion_bienes: [
+        {
+          descripcion: undefined
+        }
+      ],
     },
     activeItem: 'tipo',
     submitted: false,
@@ -598,6 +631,7 @@ var app = new Vue({
     this.getBienes();
     this.getPropositos();
     this.getServicios();
+    this.getInmuebles();
   },
   methods: {
     isActive (menuItem) {
@@ -605,6 +639,12 @@ var app = new Vue({
     },
     setActive (menuItem) {
       this.activeItem = menuItem
+    },
+    add(index) {
+      this.nuevaSolicitud.descripcion_bienes.push({ descripcion: '' });
+    },
+    remove(index) {
+      this.nuevaSolicitud.descripcion_bienes.splice(index, 1);
     },
     getClientes: function() {
       axios.get('/api/cliente/')
@@ -669,6 +709,15 @@ var app = new Vue({
           console.log(err);
         })
     },
+    getInmuebles: function() {
+      axios.get('/api/inmueble/')
+        .then((response) => {
+          this.inmuebles = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
     onChangeEstado: function(event) {
       let estadoValue = event.target.value;
       if (estadoValue !== '') {
@@ -708,6 +757,7 @@ var app = new Vue({
         this.nuevaSolicitud.bien_id = this.nuevaSolicitud.tipo_bien.id;
         this.nuevaSolicitud.proposito_id = this.nuevaSolicitud.proposito.id;
         this.nuevaSolicitud.tipo_servicio_id = this.nuevaSolicitud.tipo_servicio.id;
+        this.nuevaSolicitud.tipo_inmueble_id = this.nuevaSolicitud.tipo_inmueble.id;
         axios.post('/api/avaluo/', this.nuevaSolicitud, {'headers': {
           'X-CSRFToken': this.csrf_token,
           'Content-Type': 'application/json'
