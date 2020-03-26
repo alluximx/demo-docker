@@ -488,7 +488,137 @@
     </div>
     <!-- end tipo tab -->
     <div class="tab-pane fade" :class="{ 'active show': isActive('asignacion') }" id="asignacion">
-      Asignación de colegio y aceptación
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="id_colegio">Colegio</label>
+          <select
+            id="id_colegio"
+            name="colegio"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.colegio_aceptacion.colegio"
+            @change="onChangeColegio($event)" >
+            <option :value="null">---</option>
+            <option v-for="colegio in colegios" v-bind:value="colegio.id">
+              [[ colegio.nombre ]]
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="id_presidente">Presidente</label>
+          <input
+            id="id_presidente"
+            name="colegio"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.colegio_aceptacion.presidente"
+            readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="id_valuador">Valuador</label>
+          <select
+            id="id_valuador"
+            name="valuador"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.colegio_aceptacion.valuador">
+            <option :value="null">---</option>
+            <option v-for="valuador in valuadores" v-bind:value="valuador.id">
+              [[ valuador.nombre ]] [[ valuador.apellido_paterno ]]
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="id_observaciones">Observaciones</label>
+          <textarea
+            id="id_observaciones"
+            name="observaciones"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.colegio_aceptacion.observaciones"
+            rows="4">
+          </textarea>
+        </div>
+      </div>
+      <div class="form-row text-center">
+        <div class="form-group col-md-6">
+          <button class="btn btn-primary">Aceptar</button>
+        </div>
+        <div class="form-group col-md-6">
+          <a href="#">Descargar Formato de aceptación</a>
+        </div>
+      </div>
+      <hr>
+      <h4>Carga de Propuesta Técnica</h4>
+      <hr>
+      <br/>
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <label for="id_propuesta_tecnica">Propuesta Técnica</label>
+          <input
+            type="file"
+            id="id_propuesta_tecnica"
+            name="propuesta_tecnica"
+            class="form-control d-inline-block"
+            @change="onChangePropuestaTecnica($event)"
+          readonly>
+        </div>
+        <div class="form-group col-md-7 text-center">
+          <p>Aceptar o Rechazar la Propuesta y delegar al respectivo responsable para su revisión.</p>
+          <label style="color: green" class="radio-inline">
+            <input type="radio" name="aceptado" v-model="nuevaSolicitud.propuesta_tecnica.aceptado">
+            <i class="fa fa-check" aria-hidden="true"></i> Aceptar
+          </label>&nbsp;
+          <label style="color: red" class="radio-inline">
+            <input type="radio" name="aceptado" v-model="nuevaSolicitud.propuesta_tecnica.aceptado">
+            <i class="fa fa-times" aria-hidden="true"></i> Rechazar
+          </label>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="id_propuesta_observaciones">Observaciones</label>
+          <textarea
+            id="id_propuesta_observaciones"
+            name="propuesta_observaciones"
+            class="form-control d-inline-block"
+            v-model="nuevaSolicitud.propuesta_tecnica.observaciones"
+            rows="4">
+          </textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <button class="btn btn-primary">Cargar Propuesta</button>
+        </div>
+      </div>
+      <hr>
+      <h4>Bitacora de Propuestas</h4>
+      <br/>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Responsable de Carga</th>
+                <th scope="col">Fecha de Carga</th>
+                <th scope="col">Hora de Carga</th>
+                <th scope="col">Respuesta</th>
+                <th scope="col">Observaciones</th>
+                <th scope="col">Archivo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="propuesta in propuestas_tecnicas">
+                <td>[[ propuesta.id ]]</td>
+                <td>[[ propuesta.id ]]</td>
+                <td>[[ propuesta.id ]]</td>
+                <td>[[ propuesta.id ]]</td>
+                <td>[[ propuesta.id ]]</td>
+                <td>[[ propuesta.id ]]</td>
+              </tr>
+            </tbody>
+            </table>
+        </div>
+      </div>
     </div>
     <div class="tab-pane fade" :class="{ 'active show': isActive('documentacion') }" id="documentacion">
       Documentación entregada
@@ -542,6 +672,9 @@ var app = new Vue({
     adrs: '',
     estados: '',
     municipios: '',
+    colegios: '',
+    valuadores: '',
+    propuestas_tecnicas: '',
     nuevaSolicitud: {
       cliente: '',
       cliente_id: '',
@@ -587,6 +720,17 @@ var app = new Vue({
       proposito_id: '',
       tipo_servicio_id: '',
       tipo_servicio: '',
+      colegio_aceptacion:{
+        colegio: '',
+        presidente: '',
+        valuador: '',
+        observaciones: '',
+      },
+      propuesta_tecnica: {
+        archivo: '',
+        observaciones: '',
+        aceptado: '',
+      }
     },
     activeItem: 'tipo',
     submitted: false,
@@ -598,6 +742,8 @@ var app = new Vue({
     this.getBienes();
     this.getPropositos();
     this.getServicios();
+    this.getColegios();
+    this.getValuadores();
   },
   methods: {
     isActive (menuItem) {
@@ -628,6 +774,43 @@ var app = new Vue({
       axios.get('/api/estado/')
         .then((response) => {
           this.estados = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    getColegios: function() {
+      axios.get('/api/colegios/')
+        .then((response) => {
+          this.colegios = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    getPropuestasTecnicas: function() {
+      axios.get('/api/propuestas_tecnicas/')
+        .then((response) => {
+          console.log(response.data);
+          this.propuestas_tecnicas = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    getValuadores: function() {
+      axios.get('/api/valuadores/')
+        .then((response) => {
+          this.valuadores = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    getNombrePresidente: function(colegioId) {
+      axios.get('/api/colegios/' + colegioId + '/presidente/')
+        .then((response) => {
+          this.nuevaSolicitud.colegio_aceptacion.presidente = response.data;
         })
         .catch((err) => {
           console.log(err);
@@ -695,6 +878,16 @@ var app = new Vue({
         this.nuevaSolicitud.datos_cliente.apellido_materno = '';
         this.nuevaSolicitud.datos_cliente.curp = '';
       }
+    },
+    onChangeColegio: function(event) {
+      let colegioId = event.target.value;
+      if (colegioId !== '')
+      {
+        this.getNombrePresidente(colegioId);
+      }
+    },
+    onChangePropuestaTecnica: function(event) {
+      this.nuevaSolicitud.propuesta_tecnica.archivo = event.target.files[0];
     },
     addSolicitud: function() {
       this.$validator.validate().then(result => {

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Cliente, Avaluo, DatosCliente, Mancomunado, ADR, ALR, Bien, Proposito, Servicio, Inmueble
+from .models import Cliente, Avaluo, DatosCliente, Mancomunado, ADR, ALR, Bien, Proposito, Servicio, Inmueble, Empresa, \
+    Colegio, Valuador, ColegioAvaluo, PropuestaTecnica, Estado, Municipio
 
 
 class ClienteAdmin(admin.ModelAdmin):
@@ -21,3 +22,10 @@ admin.site.register(Bien)
 admin.site.register(Proposito)
 admin.site.register(Servicio)
 admin.site.register(Inmueble)
+admin.site.register(Empresa)
+admin.site.register(Colegio)
+admin.site.register(Valuador)
+admin.site.register(ColegioAvaluo)
+admin.site.register(PropuestaTecnica)
+admin.site.register(Estado)
+admin.site.register(Municipio)
