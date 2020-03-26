@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Cliente, Avaluo, DatosCliente, Mancomunado, Estado, Municipio, \
-    ADR, ALR, Bien, Proposito, Servicio, Inmueble
+    ADR, ALR, Bien, Proposito, Servicio, Inmueble, DescripcionBien
 
 
 class ClienteSerializer(serializers.ModelSerializer):
@@ -71,6 +71,12 @@ class InmuebleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DescripcionBienSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DescripcionBien
+        fields = '__all__'
+
+
 class AvaluoSerializer(serializers.ModelSerializer):
     # Cliente
     cliente_id = serializers.PrimaryKeyRelatedField(write_only=True,
@@ -108,6 +114,8 @@ class AvaluoSerializer(serializers.ModelSerializer):
 
     datos_cliente = DatosClienteSerializer()
     mancomunado = MancomunadoSerializer()
+    descripcion_bienes = DescripcionBienSerializer(many=True, required=False)
+
     fecha_asignacion = serializers.DateField(format="%d-%m-%Y",
                                              input_formats=['%d-%m-%Y', 'iso-8601'],
                                              required=False)
@@ -126,16 +134,17 @@ class AvaluoSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         datos_cliente_data = validated_data.pop('datos_cliente', None)
         mancomunado_data = validated_data.pop('mancomunado', None)
+        descripcion_bien_data = validated_data.pop('descripcion_bienes', None)
 
         avaluo = Avaluo.objects.create(**validated_data)
 
         if datos_cliente_data:
-            datos_cliente = DatosCliente.objects.create(avaluo=avaluo, **datos_cliente_data)
-            validated_data['datos_cliente'] = datos_cliente
+            DatosCliente.objects.create(avaluo=avaluo, **datos_cliente_data)
         if mancomunado_data:
-            mancomunado = Mancomunado.objects.create(avaluo=avaluo, **mancomunado_data)
-            validated_data['mancomunado'] = mancomunado
+            Mancomunado.objects.create(avaluo=avaluo, **mancomunado_data)
 
-        # Pass created instance to drf
-        # return super().create(validated_data)
-        return validated_data
+        if descripcion_bien_data:
+            for descripcion_data in descripcion_bien_data:
+                DescripcionBien.objects.create(avaluo=avaluo, **descripcion_data)
+
+        return avaluo
