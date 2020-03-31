@@ -174,14 +174,14 @@ class Mancomunado(models.Model):
 
 
 class DescripcionBien(models.Model):
-    descripcion = models.CharField(null=False, max_length=255)
+    descripcion = models.CharField(blank=True, null=True, max_length=255)
     avaluo = models.ForeignKey(Avaluo, null=True, on_delete=models.CASCADE, related_name="descripcion_bien")
 
     class Meta:
-        verbose_name_plural = "Tipos de Bienes"
+        verbose_name_plural = "Descripciones de Bienes"
 
     def __str__(self):
-        return self.nombre
+        return self.descripcion
 
 
 class Empresa(models.Model):

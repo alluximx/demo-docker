@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Cliente, Avaluo, DatosCliente, Mancomunado, ADR, ALR, Bien, Proposito, Servicio, Inmueble, Empresa, \
-    Colegio, Valuador, ColegioAvaluo, PropuestaTecnica, Estado, Municipio
+    Colegio, Valuador, ColegioAvaluo, PropuestaTecnica, Estado, Municipio, DescripcionBien
 
 
 class ClienteAdmin(admin.ModelAdmin):
@@ -29,3 +29,4 @@ admin.site.register(ColegioAvaluo)
 admin.site.register(PropuestaTecnica)
 admin.site.register(Estado)
 admin.site.register(Municipio)
+admin.site.register(DescripcionBien)
