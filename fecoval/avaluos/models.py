@@ -1,4 +1,7 @@
+from builtins import property
+
 from django.db import models
+from fecoval.users.models import User
 
 
 class TimeStampedModel(models.Model):
@@ -179,3 +182,91 @@ class DescripcionBien(models.Model):
 
     def __str__(self):
         return self.descripcion
+
+
+class Empresa(models.Model):
+    name = models.CharField(null=False, max_length=255)
+
+    class Meta:
+        verbose_name_plural = "Empresas"
+
+    def __str__(self):
+        return self.name
+
+
+class Colegio(TimeStampedModel):
+    presidente = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="colegios_presidente")
+    nombre = models.CharField(null=False, max_length=255)
+    empresa = models.CharField(null=False, max_length=255)
+    rfc = models.CharField(blank=True, null=True, max_length=255)
+    telefono = models.CharField(blank=True, null=True, max_length=255)
+    correo = models.EmailField(blank=True, null=True, max_length=255)
+    contacto = models.CharField(blank=True, null=True, max_length=255)
+    descripcion = models.TextField(null=True, blank=True, verbose_name='Descripción')
+    estatus = models.BooleanField(default=True)
+
+
+    class Meta:
+        verbose_name_plural = "Colegios"
+
+    def __str__(self):
+        return self.nombre
+
+    @property
+    def nombre_presidente(self):
+        if self.presidente:
+            return self.presidente.name
+        return None
+
+
+class Valuador(models.Model):
+    TIPO_CHOICES = (
+        ('visita', 'Visita'),
+        ('controlador', 'Controlador'),
+    )
+    usuario = models.OneToOneField(User, null=True, on_delete=models.CASCADE, related_name="valuador")
+    empresa = models.ForeignKey(Empresa, null=True, on_delete=models.CASCADE, related_name="valuadores")
+    nombre = models.CharField(null=False, max_length=255)
+    apellido_paterno = models.CharField(null=False, max_length=255)
+    apellido_materno = models.CharField(blank=True, null=True, max_length=255)
+    correo = models.EmailField(blank=True, null=True, max_length=255)
+    telefono = models.CharField(blank=True, null=True, max_length=255)
+    celular = models.CharField(blank=True, null=True, max_length=255)
+    direccion = models.CharField(blank=True, null=True, max_length=255)
+    descripcion = models.TextField(null=True, blank=True, verbose_name='Descripción')
+    estatus = models.BooleanField(default=True)
+    tipo = models.CharField(blank=True, null=True, choices=TIPO_CHOICES, max_length=35)
+
+    class Meta:
+        verbose_name_plural = "Valuadores"
+
+    def __str__(self):
+        return self.nombre
+
+
+class ColegioAvaluo(models.Model):
+    avaluo = models.OneToOneField(Avaluo, null=True, on_delete=models.CASCADE, related_name="colegio_avaluo")
+    colegio = models.ForeignKey(Colegio, null=True, on_delete=models.CASCADE)
+    evaluador = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="colegios")
+    observaciones = models.TextField(null=True, blank=True, verbose_name='Observaciones')
+
+    class Meta:
+        verbose_name_plural = "Colegios Avaluos"
+
+    def __str__(self):
+        return self.nombre
+
+
+class PropuestaTecnica(TimeStampedModel):
+    avaluo = models.OneToOneField(Avaluo, null=True, on_delete=models.CASCADE, related_name="propuesta_tecnica")
+    responsable_carga = models.ForeignKey(Valuador, null=True, on_delete=models.CASCADE, related_name="valuador")
+    archivo = models.FileField()
+    observaciones = models.TextField(null=True, blank=True, verbose_name='Observaciones')
+    respuesta = models.TextField(null=True, blank=True, verbose_name='Respuesta')
+    aceptado = models.NullBooleanField(null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Propuestas Técnicas"
+
+    def __str__(self):
+        return self.archivo.name

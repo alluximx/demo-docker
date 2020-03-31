@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Cliente, Avaluo, DatosCliente, Mancomunado, Estado, Municipio, \
-    ADR, ALR, Bien, Proposito, Servicio, Inmueble, DescripcionBien
+    ADR, ALR, Bien, Proposito, Servicio, Inmueble, DescripcionBien, Colegio, Valuador, PropuestaTecnica
+
 
 
 class ClienteSerializer(serializers.ModelSerializer):
@@ -148,3 +149,22 @@ class AvaluoSerializer(serializers.ModelSerializer):
                 DescripcionBien.objects.create(avaluo=avaluo, **descripcion_data)
 
         return avaluo
+
+
+class ColegioSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Colegio
+        fields = '__all__'
+
+
+class ValuadorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Valuador
+        fields = '__all__'
+
+
+class PropuestaTecnicaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PropuestaTecnica
+        fields = '__all__'

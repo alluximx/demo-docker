@@ -2,9 +2,12 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Cliente, Avaluo, Estado, Municipio, ADR, Bien, Proposito, Servicio, Inmueble
+from .models import Cliente, Avaluo, Estado, Municipio, ADR, Bien, Proposito, Servicio, Colegio, Valuador, \
+    PropuestaTecnica, Inmueble
+
 from .serializers import ClienteSerializer, AvaluoSerializer, EstadoSerializer, MunicipioSerializer, \
-    ADRSerializer, BienSerializer, PropositoSerializer, ServicioSerializer, InmuebleSerializer
+    ADRSerializer, BienSerializer, PropositoSerializer, ServicioSerializer, InmuebleSerializer, ColegioSerializer, \
+    ValuadorSerializer, PropuestaTecnicaSerializer
 
 
 class ClienteViewSet(viewsets.ReadOnlyModelViewSet):
@@ -56,7 +59,31 @@ class ServicioViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ServicioSerializer
 
 
+class ColegioViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Colegio.objects.filter(estatus=True)
+    serializer_class = ColegioSerializer
+
+    @action(detail=True)
+    def presidente(self, request, pk=None):
+        colegio = self.get_object()
+        return Response(colegio.presidente.first_name + ' ' + colegio.presidente.last_name)
+
+
+class ValuadorViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Valuador.objects.filter(estatus=True)
+    serializer_class = ValuadorSerializer
+
+
+class PropuestaTecnicaViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = PropuestaTecnica.objects.all()
+    serializer_class = PropuestaTecnicaSerializer
+
+
 class InmuebleViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Inmueble.objects.all()
     serializer_class = InmuebleSerializer
+
