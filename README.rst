@@ -32,15 +32,6 @@ Execute management commands
   $ docker-compose -f local.yml run --rm django python manage.py migrate
 
 
-Dot env
-^^^^^^^
-By default it reads credentials from .envs/.local/, to switch to custom .env, add to zshrc or bashrc:
-
-::
-
-  export DJANGO_READ_DOT_ENV_FILE=True
-
-
 Settings
 --------
 
