@@ -9,7 +9,7 @@ flower==0.9.3  # https://github.com/mher/flower
 
 # Django
 # ------------------------------------------------------------------------------
-django==2.2.10  # pyup: < 3.0  # https://www.djangoproject.com/
+django==4.2.27  # pyup: < 3.0  # https://www.djangoproject.com/
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-model-utils==4.0.0  # https://github.com/jazzband/django-model-utils
 django-allauth==0.41.0  # https://github.com/pennersr/django-allauth
@@ -18,3 +18,5 @@ django-redis==4.11.0  # https://github.com/niwinz/django-redis
 
 # Django REST Framework
 djangorestframework==3.11.0  # https://github.com/encode/django-rest-framework
+sqlparse>=0.5.4 # not directly required, pinned by Snyk to avoid a vulnerability
+urllib3>=2.6.0 # not directly required, pinned by Snyk to avoid a vulnerability
